@@ -1,9 +1,18 @@
 a.nav-text {
     color: white;
     font-style: italic;
-    
+    font-size: 30px;
+    font-weight: bold;
 }
 
-#navbarSupportedContent {
-    color: whitesmoke;
+a.link-text {
+    color: white;
+    font-size: 18px;
+    position: relative;
+    top: 25%;
+}
+
+.navbarSupportedContent {
+    flex-direction: row-reverse;
+
 }
