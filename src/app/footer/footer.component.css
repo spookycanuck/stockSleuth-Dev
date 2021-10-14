@@ -1,0 +1,10 @@
+a.link-text {
+    color: white;
+    font-size: 16px;
+    position: relative;
+}
+
+.footerSocial {
+    flex-direction: row-reverse;
+
+}
