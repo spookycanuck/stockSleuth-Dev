@@ -1,16 +1,8 @@
-html, body {
-  background-color: #123353;
-  margin: 0;
-}
-.side-search {
-  background-color: #D3D4D9;
-}
-
 .main-display {
   background-color: #123353;
 }
 
-.body {
-  min-height: 100%;
-  margin-bottom: 50px;
+.view {
+  background-color: #D3D4D9;
+  height: 100vh;
 }
