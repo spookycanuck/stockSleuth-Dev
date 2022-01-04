@@ -1,16 +1,16 @@
 html, body, main {
-    height: 100%;
-    margin: 0;
+  background-color: #123353;
+  margin: 0;
+  height:100vh;
+  width:100vw;
 }
+
 .side-search {
-    background-color: #D3D4D9;
+  background-color: #d3d4d9;
 }
 
 .main-display {
-    background-color: #123353;
+  color: white;
+  background-color: #123353;
 }
 
-.body {
-    min-height: 100%;
-    margin-bottom: 50px;
-}
