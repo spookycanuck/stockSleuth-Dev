@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-tos',
   templateUrl: './tos.component.html',
-  styleUrls: ['./tos.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class TosComponent implements OnInit {
 

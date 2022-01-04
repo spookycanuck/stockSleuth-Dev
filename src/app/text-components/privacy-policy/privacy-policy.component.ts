@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-privacy-policy',
   templateUrl: './privacy-policy.component.html',
-  styleUrls: ['./privacy-policy.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class PrivacyPolicyComponent implements OnInit {
 

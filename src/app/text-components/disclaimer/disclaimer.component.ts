@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-disclaimer',
   templateUrl: './disclaimer.component.html',
-  styleUrls: ['./disclaimer.component.css']
+  styleUrls: ['../../app.component.css']
 })
 export class DisclaimerComponent implements OnInit {
 
