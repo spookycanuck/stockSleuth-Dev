@@ -10,7 +10,7 @@ import { PrivacyPolicyComponent } from "./text-components/privacy-policy/privacy
 import { DisclaimerComponent } from "./text-components/disclaimer/disclaimer.component";
 
 const routes: Routes = [
-  { path: 'main', component: MainDisplayComponent },
+  { path: '', component: MainDisplayComponent },
   // { path: 'login', component: LoginComponent },
   // { path: 'signup', component: SignupComponent },
   { path: 'about', component: AboutComponent },
