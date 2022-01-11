@@ -31,7 +31,9 @@
       <br>
       <button
         mat-raised-button
-        color="primary"
+        [color]="color"
+        (mouseover)="color='warn'"
+        (mouseout)="color='primary'"
         type="submit"
         *ngIf="!isLoading">
         Login

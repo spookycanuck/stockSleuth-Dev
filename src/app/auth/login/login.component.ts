@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  color = 'primary';
   isLoading = false;
 
   constructor(public authService: AuthService) {}
