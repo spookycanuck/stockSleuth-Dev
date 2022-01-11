@@ -16,3 +16,7 @@ a.link-text {
     flex-direction: row-reverse;
 
 }
+
+.onhover:hover {
+  color: #BB0A21;
+}
