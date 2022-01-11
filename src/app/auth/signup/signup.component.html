@@ -1,0 +1,56 @@
+<div class="signup-component">
+  <mat-card class="signup-card">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+      <h4 class="head">Create a New Account</h4>
+      <p>Get Started with Stock Sleuth! Let's set up your account. Already have one? <a href="/login">Sign in here.</a><p>
+        <mat-form-field>
+          <input
+            matInput
+            ngModel
+            name="firstName"
+            type="name"
+            placeholder="First Name"
+            #LNameInput="ngModel"
+            required>
+            <mat-error *ngIf="emailInput.invalid">Please enter your first name.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            ngModel
+            name="lastName"
+            type="name"
+            placeholder="Last Name"
+            #LNameInput="ngModel"
+            required>
+            <mat-error *ngIf="emailInput.invalid">Please enter your last name.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+        <input
+          matInput
+          ngModel
+          name="email"
+          type="email"
+          placeholder="Email"
+          #emailInput="ngModel"
+          required
+          email>
+        <mat-error *ngIf="emailInput.invalid">Please enter a valid email address.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          ngModel
+          name="password"
+          type="password"
+          placeholder="Password"
+          #passwordInput="ngModel"
+          required>
+        <mat-error *ngIf="passwordInput.invalid">Please enter a valid email password.</mat-error>
+      </mat-form-field>
+      <p class="terms">By submitting this form, you agree to our <a href="/terms">Terms of Service.</a></p>
+      <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign up</button>
+    </form>
+  </mat-card>
+</div>

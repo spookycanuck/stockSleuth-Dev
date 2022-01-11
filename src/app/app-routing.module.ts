@@ -8,6 +8,8 @@ import { HelpComponent } from "./text-components/help/help.component";
 import { TosComponent } from "./text-components/tos/tos.component";
 import { PrivacyPolicyComponent } from "./text-components/privacy-policy/privacy-policy.component";
 import { DisclaimerComponent } from "./text-components/disclaimer/disclaimer.component";
+import { LoginComponent } from "./auth/login/login.component";
+import { SignupComponent } from "./auth/signup/signup.component";
 
 const routes: Routes = [
   { path: '', component: MainDisplayComponent },
@@ -16,9 +18,11 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'disclaimer', component: DisclaimerComponent },
   { path: 'help', component: HelpComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'profile', component: ProfileComponent},
-  { path: 'terms', component: TosComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'terms', component: TosComponent }
 ];
 
 @NgModule({

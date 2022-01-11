@@ -1,0 +1,34 @@
+
+.signup-component {
+  margin: 8% auto;
+  display: flex;
+  justify-content: center;
+}
+
+.signup-card {
+  width: 35%;
+  background: #d3d4d9;
+  display: flex;
+  box-shadow: 3px 3px 13px rgb(23, 23, 23);
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.head{
+  text-align: center;
+}
+
+.terms {
+  font-size: 12px;
+}
+
+mat-form-field,
+textarea {
+  width: 80%;
+  color: auto;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
