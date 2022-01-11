@@ -50,7 +50,7 @@
         <mat-error *ngIf="passwordInput.invalid">Please enter a valid email password.</mat-error>
       </mat-form-field>
       <p class="terms">By submitting this form, you agree to our <a href="/terms">Terms of Service.</a></p>
-      <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign up</button>
+      <button mat-raised-button [color]="color" (mouseover)="color='warn'" (mouseout)="color='primary'"  type="submit" *ngIf="!isLoading">Sign up</button>
     </form>
   </mat-card>
 </div>

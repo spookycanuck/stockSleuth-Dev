@@ -9,6 +9,7 @@ import { AuthService } from "../auth.service";
 })
 
 export class SignupComponent {
+  color = 'primary';
   isLoading = false;
 
   constructor(public authService: AuthService) {}
