@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideSearchComponent implements OnInit {
 
+  // I dont think I need this page anymore.
+
   constructor() { }
 
   ngOnInit(): void {
