@@ -6,3 +6,24 @@
   background-color: #D3D4D9;
   height: 100vh;
 }
+
+h6 {
+  text-align: center;
+}
+
+.mat-expansion-panel {
+  background-color: #252627;
+  color: white;
+}
+
+.mat-expansion-indicator::after {
+  color: white;
+}
+
+.onhover:hover {
+  background: #BB0A21 !important;
+}
+
+.description {
+  margin: 15px auto;
+}
