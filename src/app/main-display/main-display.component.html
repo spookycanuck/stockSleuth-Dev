@@ -11,7 +11,28 @@
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <div><br>
+          <h6>Recent Searches:</h6>
+          <mat-expansion-panel *ngFor="let search of searches" style="margin: 3px auto">
+            <mat-expansion-panel-header class="onhover">
+                {{ search.ticker }}
+            </mat-expansion-panel-header>
+            <div class="description">
+              <p>Company Name:
+                {{ search.description }}
+              </p>
+              <p>High:
+                {{ search.high }}
+              </p>
+              <p>Low:
+                {{ search.low }}
+              </p>
+            </div>
+          </mat-expansion-panel>
+        </div><br>
+        <p class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display.</p>
       </div>
+
       <div class="col-lg-10 main-display">
         <h1 style="color: white; text-align: center; margin-top: 50px">
           main-display works!
