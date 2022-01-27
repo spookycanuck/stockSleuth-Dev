@@ -4,12 +4,14 @@
       <div class="col-lg-2 side-search">
         <form class="d-flex" style="margin-top: 15px">
           <input
+          matInput
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
+          #userInput
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-outline-success" type="submit" (click)="onAddSearch(userInput)">Search</button>
         </form>
         <div><br>
           <h6>Recent Searches:</h6>
@@ -30,7 +32,7 @@
             </div>
           </mat-expansion-panel>
         </div><br>
-        <p class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display.</p>
+        <h6 class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display!</h6>
       </div>
 
       <div class="col-lg-10 main-display">
