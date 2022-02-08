@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; //Angular likes HTTP client instead of async/fetch
+
+import { Search } from '../search.model';
 
 @Component({
   selector: 'app-side-search',
@@ -6,12 +10,55 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: []
 })
 export class SideSearchComponent implements OnInit {
+  searches = [];
+  isLoading = false;
+  newSearch = '';
+  userValue = '';
+  returnStonkData = {};
 
-  // I dont think I need this page anymore.
+  // variable collection from Search feature
+  searchID = null;
+  userSearch = '';
+  userTickerInput = '';
+  tickerLow = null;
+  tickerHigh = null;
+  @Output() searchCreated = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  ngOnInit() { }
+
+  onAddSearch() {
+    this.newSearch = this.userTickerInput; //new variable name
+    const pythonURL = `http://localhost:5000/getPriceData?symbol=${this.newSearch}`
+    fetch(pythonURL).then(
+      res => res.json()
+    ).then(
+      data => {
+        this.returnStonkData = data
+        console.log(this.returnStonkData) //outputs API Data as the empty object returnStonkData
+      }
+    )
+
+    const search: Search = {
+      //I want to pull the most recent API data into this model
+      id: this.searchID,
+      description: this.userSearch,
+      ticker: this.userTickerInput,
+      low: this.tickerLow,
+      high: this.tickerHigh
+    }
+    //And then push it into the array below, so I can output
+      //the array in the "Recent Searches" panel.
+    this.searches.push(search);
+    console.log(this.searches);
+    console.log(this.newSearch)
+    // this.searchCreated.emit(search);
+
+
+    //Figure out a way to log returnStonkData outside of the scope of the API call.
+    //May need an observable - one of the bigger hurdles
+
   }
 
 }

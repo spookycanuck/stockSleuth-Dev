@@ -1,1 +1,39 @@
-<!-- I dont think I need this page anymore. -->
+<!-- Side search bar -->
+<!-- Utilized in the Main Display Component -->
+
+<!-- This component will be very important to the
+      overall scope of the project, with respect to
+      data handling and presentation
+  -->
+
+<form class="d-flex" style="margin-top: 15px">
+  <input
+  matInput
+  ngForm
+  class="form-control me-2"
+  placeholder="Search"
+  name= "search"
+  [(ngModel)]="userTickerInput"><br>
+  <button class="btn btn-outline-success" type="submit" (click)="onAddSearch()">Search</button>
+</form>
+
+<div><br>
+  <h6>Recent Searches:</h6>
+  <mat-expansion-panel *ngFor="let search of searches" style="margin: 3px auto">
+    <mat-expansion-panel-header class="hoverSearch">
+        {{ search.ticker }}
+    </mat-expansion-panel-header>
+    <div class="description">
+      <p>Company Name:
+        {{ search.description }}
+      </p>
+      <p>High:
+        {{ search.high }}
+      </p>
+      <p>Low:
+        {{ search.low }}
+      </p>
+    </div>
+  </mat-expansion-panel>
+</div><br>
+<h6 class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display!</h6>
