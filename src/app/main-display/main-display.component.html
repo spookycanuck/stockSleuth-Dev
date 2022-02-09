@@ -2,43 +2,11 @@
   <div class="container-fluid body">
     <div class="row view">
       <div class="col-lg-2 side-search">
-        <form class="d-flex" style="margin-top: 15px">
-          <input
-          matInput
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          #userInput
-          />
-          <button class="btn btn-outline-success" type="submit" (click)="onAddSearch(userInput)">Search</button>
-        </form>
-        <div><br>
-          <h6>Recent Searches:</h6>
-          <mat-expansion-panel *ngFor="let search of searches" style="margin: 3px auto">
-            <mat-expansion-panel-header class="hoverSearch">
-                {{ search.ticker }}
-            </mat-expansion-panel-header>
-            <div class="description">
-              <p>Company Name:
-                {{ search.description }}
-              </p>
-              <p>High:
-                {{ search.high }}
-              </p>
-              <p>Low:
-                {{ search.low }}
-              </p>
-            </div>
-          </mat-expansion-panel>
-        </div><br>
-        <h6 class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display!</h6>
+        <app-side-search (searchCreated)="onSearchAdded($event)"></app-side-search>
+      <!-- The event binding above is like less than half complete. -->
       </div>
-
       <div class="col-lg-10 main-display">
-        <h1 style="color: white; text-align: center; margin-top: 50px">
-          main-display works!
-        </h1>
+        <app-chart-display [searches]="storedSearches"></app-chart-display>
       </div>
     </div>
   </div>
