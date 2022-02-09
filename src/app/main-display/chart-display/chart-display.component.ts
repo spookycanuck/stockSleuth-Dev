@@ -11,14 +11,11 @@ import { Search } from '../search.model';
   styleUrls: []
 })
 export class ChartDisplayComponent implements OnInit {
-  @Input() searched = [];
+  @Input() searches = [];
+  isLoading = false;
 
   constructor(private router: ActivatedRoute) { }
 
   ngOnInit() { }
-
-  onSearchAdded(search) {
-    this.searched.push(search); //adds search to "searched" array
-  }
 
 }

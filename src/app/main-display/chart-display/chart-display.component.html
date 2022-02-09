@@ -1,3 +1,11 @@
   <h1 style="color: white; text-align: center; margin-top: 50px">
-    chart-display works!
-  </h1>
+    Chart display works!
+  </h1><br>
+
+    <div *ngFor="let search of searches" style="text-align:center; color: white; margin: 3px auto">
+
+          {{ search.ticker }}
+
+    </div><br>
+  <h3 style="color:white; text-align: center;" *ngIf="searches.length <= 0 && !isLoading">No recent charts to display!</h3>
+
