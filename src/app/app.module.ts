@@ -26,6 +26,7 @@ import { PrivacyPolicyComponent } from './text-components/privacy-policy/privacy
 import { DisclaimerComponent } from './text-components/disclaimer/disclaimer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { ChartDisplayComponent } from './main-display/chart-display/chart-display.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +42,9 @@ import { SignupComponent } from './auth/signup/signup.component';
     PrivacyPolicyComponent,
     DisclaimerComponent,
     LoginComponent,
-    SignupComponent
-  ],
+    SignupComponent,
+    ChartDisplayComponent,
+    ],
   imports: [
     BrowserModule,
     FormsModule,
