@@ -53,13 +53,15 @@ export class SideSearchComponent implements OnInit {
       ticker: this.newSearch,
       low: this.tickerLow,
       high: this.tickerHigh
-    }
+    };
+
     //And then push it into the array below, so I can output
     //   the array in the "Recent Searches" panel.
     this.searches.push(search);
-    console.log(this.searches);
-    console.log(this.newSearch);
     this.searchCreated.emit(search);
+    // console.log("side-search emit: ")
+    // console.log(this.searches)
+
 
 
     //Figure out a way to log returnStonkData outside of the scope of the API call.
