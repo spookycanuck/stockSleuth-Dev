@@ -3,7 +3,6 @@
     <div class="row view">
       <div class="col-lg-2 side-search">
         <app-side-search (searchCreated)="onSearchAdded($event)"></app-side-search>
-      <!-- The event binding above is like less than half complete. -->
       </div>
       <div class="col-lg-10 main-display">
         <app-chart-display [searches]="storedSearches"></app-chart-display>
