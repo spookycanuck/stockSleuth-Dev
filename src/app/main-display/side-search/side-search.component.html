@@ -6,16 +6,30 @@
       data handling and presentation
   -->
 
-<form class="d-flex" style="margin-top: 15px">
-  <input
-  matInput
-  ngForm
-  class="form-control me-2"
-  placeholder="Search"
-  name= "search"
-  [(ngModel)]="userTickerInput"><br>
-  <button class="btn btn-outline-success" type="submit" (click)="onAddSearch()">Search</button>
-</form>
+<form (submit)="onAddSearch(postForm)" #postForm="ngForm" class="d-flex" style="margin-top: 15px">
+    <input
+    matInput
+    required
+    ngModel
+    type="text"
+    class="form-control me-2"
+    placeholder="Search"
+    name="search"
+    minlength="4"
+    maxlength="6"
+    #search="ngModel"
+    >
+    <button
+    ngDefaultControl
+    ngModel
+    type="submit"
+    class="btn btn-outline-success"
+    name="button"
+    #button="ngModel"
+    >
+    Search</button>
+  </form>
+  <mat-error *ngIf="search.invalid && isSubmitted">Please enter a valid ticker</mat-error>
 
 <div><br>
   <h6>Recent Searches:</h6>
