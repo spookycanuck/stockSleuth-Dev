@@ -34,7 +34,7 @@ export class SideSearchComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.newSearch = form.value.search; //new variable name
+    this.newSearch = form.value.search.toUpperCase(); //new variable name
     // const pythonURL = `http://localhost:5000/getPriceData?symbol=${this.newSearch}`
     // fetch(pythonURL).then(
     //   res => res.json()
@@ -58,7 +58,7 @@ export class SideSearchComponent implements OnInit {
     //   the array in the "Recent Searches" panel.
     this.searches.push(search);
     console.log(this.searches);
-    console.log(this.newSearch)
+    console.log(this.newSearch);
     this.searchCreated.emit(search);
 
 
