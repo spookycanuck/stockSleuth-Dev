@@ -2,7 +2,7 @@
   Chart display works!
 </h1><br>
 
-<div *ngFor="let search of searches" style="text-align:center; color: white; margin: 3px auto">
+<div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
   {{ search.ticker }}
 </div><br>
 
