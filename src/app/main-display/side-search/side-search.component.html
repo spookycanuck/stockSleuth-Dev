@@ -29,7 +29,7 @@
     >
     Search</button>
   </form>
-  <mat-error *ngIf="search.invalid && isSubmitted || isInvalid">Please enter a valid ticker</mat-error>
+  <mat-error *ngIf="(search.invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
 
 <div><br>
   <h6>Recent Searches:</h6>
@@ -50,5 +50,5 @@
       </div>
     </mat-expansion-panel>
 </div><br>
-<mat-spinner [diameter]="50" *ngIf="isSearching"></mat-spinner>
-<h6 class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isSearching">No recent searches to display!</h6>
+<mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+<h6 class="info-text mat-body-1" *ngIf="searches.length <= 0 && !isLoading">No recent searches to display!</h6>

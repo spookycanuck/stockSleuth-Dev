@@ -16,7 +16,6 @@ export class SideSearchComponent implements OnInit {
   searches = [];
   isSubmitted = false;
   isLoading = false;
-  isSearching = false;
   isInvalid = false;
   stonkTicker = {};
   returnStonkData = {};
@@ -99,11 +98,11 @@ export class SideSearchComponent implements OnInit {
     }
 
     this.newSearch = form.value.search.toUpperCase(); //new variable name
-    this.isSearching = true;
+    this.isLoading = true;
 
     this.searchExists(this.newSearch); //checks if ticker is already is in searches[]
     if (this.result == true) {
-      this.isSearching = false;
+      this.isLoading = false;
       return;
     }
 
@@ -111,12 +110,12 @@ export class SideSearchComponent implements OnInit {
     if (this.tickerExists == true) {
       console.log("Ticker: " + this.tickerExists)
       await this.searchAPI(this.newSearch); //if valid ticker, search API for data
-      this.isSearching = false;
+      this.isLoading = false;
     }
     else {
       console.log("Ticker: " + this.tickerExists)
       this.isInvalid = true;
-      this.isSearching = false;
+      this.isLoading = false;
       return;
     }
 
