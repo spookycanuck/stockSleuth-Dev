@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; //Angular likes HTTP client instead of async/fetch
 import { NgForm } from '@angular/forms';
 
 import { Search } from '../search.model';
@@ -11,11 +10,12 @@ import { Search } from '../search.model';
   styleUrls: []
 })
 export class SideSearchComponent implements OnInit {
+  private newSearch = '';
+  private result = false;
+  private tickerExists
   searches = [];
   isSubmitted = false;
   isLoading = false;
-  newSearch = '';
-  result = false;
   stonkTicker = {};
   returnStonkData = {};
 
@@ -30,20 +30,37 @@ export class SideSearchComponent implements OnInit {
 
   ngOnInit() { }
 
-  stockList(userInput) {
+  async stockList(userInput) {
+    /*
+    This checks the user input against a list of tickers at the API endpoint.
+    If the input is in the list, it will return the ticker to onAddSearch()
+    and then use the ticker for searchAPI().
+
+    **TO DO: If it is not a valid ticker, log an error code to the DOM.**
+    */
     const stockName = `http://localhost:5000/getStockList?symbol=${userInput}`
-    fetch(stockName).then(
+    await fetch(stockName).then(
       res => res.json()
     ).then(
       data => {
-        this.stonkTicker = data
-        console.log(this.stonkTicker)
-        //outputs API Data as the empty object stonkTicker
+        var target = data.find(temp => temp.symbol == userInput)
+        // console.log(target)
+        if (target) {
+          this.tickerExists = true;
+        }
+        else {
+          this.tickerExists = false;
+        }
+        return(this.tickerExists)
       }
     )
   }
 
   searchAPI(userInput) {
+    /*
+    This searches the user input against a list of endpoints in the API
+    and then returns the data for that ticker to onAddSearch().
+    */
     const pythonURL = `http://localhost:5000/getPriceData?symbol=${userInput}`
     fetch(pythonURL).then(
       res => res.json()
@@ -57,34 +74,46 @@ export class SideSearchComponent implements OnInit {
   }
 
   searchExists(userInput) {
+    /*
+    Checks if userInput is already in the list of "Recent Searches". Returns
+    bool to onAddSearch().
+    */
     var x = this.searches
     var target = x.find(temp => temp.ticker == userInput)
     if (target) {
-      // console.log("already searched!");
       this.result = true;
     }
     else {
-      // console.log("doesn't exist")
       this.result = false;
     }
     return(this.result)
   }
 
-  onAddSearch(form: NgForm) {
+  async onAddSearch(form: NgForm) {
     this.isSubmitted = true;
     if (form.invalid) {
       return;
     }
+
     this.newSearch = form.value.search.toUpperCase(); //new variable name
-    this.searchExists(this.newSearch); //checking if ticker is already is in searches[]
+
+    this.searchExists(this.newSearch); //checks if ticker is already is in searches[]
     if (this.result == true) {
       return;
     }
-    // this.stockList(this.newSearch); //checks if ticker is a valid ticker
-    // this.searchAPI(this.newSearch); //searches API for ticker data
 
+    await this.stockList(this.newSearch); //checks if ticker is valid
+    if (this.tickerExists == true) {
+      console.log("Ticker: " + this.tickerExists)
+      this.searchAPI(this.newSearch); //if valid ticker, search API for data
+    }
+    else {
+      console.log("Ticker: " + this.tickerExists)
+      return;
+    }
+
+    //TO DO: I want to pull the most recent API data into the model below
     const search: Search = {
-      //I want to pull the most recent API data into this model
       id: this.searchID,
       description: this.userSearch,
       ticker: this.newSearch,
@@ -92,8 +121,10 @@ export class SideSearchComponent implements OnInit {
       high: this.tickerHigh
     };
 
-    //And then push it into the array below, so I can output
-    //   the array in the "Recent Searches" panel.
+    /*
+    And then push it into the array below, so I can output
+    the API's most recent data to the "Recent Searches" panel.
+    */
     this.searches.push(search);
     this.searchCreated.emit(search);
 
