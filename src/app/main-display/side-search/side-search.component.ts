@@ -17,6 +17,7 @@ export class SideSearchComponent implements OnInit {
   isSubmitted = false;
   isLoading = false;
   isSearching = false;
+  isInvalid = false;
   stonkTicker = {};
   returnStonkData = {};
 
@@ -92,6 +93,7 @@ export class SideSearchComponent implements OnInit {
 
   async onAddSearch(form: NgForm) {
     this.isSubmitted = true;
+    this.isInvalid = false;
     if (form.invalid) {
       return;
     }
@@ -101,6 +103,7 @@ export class SideSearchComponent implements OnInit {
 
     this.searchExists(this.newSearch); //checks if ticker is already is in searches[]
     if (this.result == true) {
+      this.isSearching = false;
       return;
     }
 
@@ -112,6 +115,7 @@ export class SideSearchComponent implements OnInit {
     }
     else {
       console.log("Ticker: " + this.tickerExists)
+      this.isInvalid = true;
       this.isSearching = false;
       return;
     }
