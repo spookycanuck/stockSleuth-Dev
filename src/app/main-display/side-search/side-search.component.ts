@@ -29,7 +29,18 @@ export class SideSearchComponent implements OnInit {
 
   constructor(private router: ActivatedRoute) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getStockList(); //save Stock List from API to session storage on init
+   }
+
+  async getStockList() {
+    const stockName = `http://localhost:5000/getStockList`
+    if (!sessionStorage.getItem('stockList')) {
+      const response = await fetch(stockName);
+      const stockList = await response.json();
+      sessionStorage.setItem('stockList', JSON.stringify(stockList));
+    }
+  }
 
   async stockList(userInput) {
     /*
@@ -39,23 +50,21 @@ export class SideSearchComponent implements OnInit {
 
     **TO DO: If it is not a valid ticker, log an error code to the DOM.**
     */
-    const stockName = `http://localhost:5000/getStockList?symbol=${userInput}`
-    await fetch(stockName).then(
-      res => res.json()
-    ).then(
-      data => {
-        var target = data.find(temp => temp.symbol == userInput)
-        // console.log(target)
-        if (target) {
-          this.tickerExists = true;
-        }
-        else {
-          this.tickerExists = false;
-        }
-        return(this.tickerExists)
-      }
-    )
+   try {
+    const stockListData = JSON.parse(sessionStorage.getItem('stockList'));
+    const stockObj = stockListData.find(stock => stock.symbol == userInput);
+    if (stockObj) {
+      this.tickerExists = true;
+      this.userSearch = stockObj.name
+    }
+    else {
+      this.tickerExists = false;
+    }
+    return(this.tickerExists)
+  } catch(error) {
+    await this.getStockList();
   }
+}
 
   async searchAPI(userInput) {
     /*
@@ -63,15 +72,10 @@ export class SideSearchComponent implements OnInit {
     and then returns the data for that ticker to onAddSearch().
     */
     const pythonURL = `http://localhost:5000/getPriceData?symbol=${userInput}`
-    fetch(pythonURL).then(
-      res => res.json()
-    ).then(
-      data => {
-        this.returnStonkData = data
-        console.log(this.returnStonkData)
-        //outputs API Data as the empty object returnStonkData
-      }
-    )
+    const response = await fetch(pythonURL);
+    const responseData = await response.json();
+    this.tickerLow = responseData.lows[responseData.lows.length-1].toFixed(2);
+    this.tickerHigh = responseData.highs[responseData.highs.length-1].toFixed(2);
   }
 
   searchExists(userInput) {
@@ -103,6 +107,7 @@ export class SideSearchComponent implements OnInit {
     this.searchExists(this.newSearch); //checks if ticker is already is in searches[]
     if (this.result == true) {
       this.isLoading = false;
+      this.isInvalid = true; //TO DO: change this to a different error readout
       return;
     }
 
@@ -119,7 +124,6 @@ export class SideSearchComponent implements OnInit {
       return;
     }
 
-    //TO DO: I want to pull the most recent API data into the model below
     const search: Search = {
       id: this.searchID,
       description: this.userSearch,
