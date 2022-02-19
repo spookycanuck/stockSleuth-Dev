@@ -19,6 +19,7 @@ export class SideSearchComponent implements OnInit {
   isInvalid = false;
   stonkTicker = {};
   returnStonkData = {};
+  priceData = null;
 
   // variable collection from API for Search feature
   searchID = null;
@@ -76,6 +77,7 @@ export class SideSearchComponent implements OnInit {
     const responseData = await response.json();
     this.tickerLow = responseData.lows[responseData.lows.length-1].toFixed(2);
     this.tickerHigh = responseData.highs[responseData.highs.length-1].toFixed(2);
+    this.priceData = responseData;
   }
 
   searchExists(userInput) {
@@ -138,6 +140,19 @@ export class SideSearchComponent implements OnInit {
     */
     this.searches.push(search);
     this.searchCreated.emit(search);
+
+    /*
+      TODO: emit search, priceData, and a variable that shows that the search
+        button was clicked. That way, when the search button is clicked it will
+        push the info to the chart display and the chart display will only
+        run the displayed info if it was clicked.
+
+      For now: Display most recent search's total API data in the
+        chart-display component
+    */
+
+    console.log(this.searches)
+    console.log(this.priceData)
 
   }
 
