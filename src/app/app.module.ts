@@ -10,6 +10,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { CommonModule } from '@angular/common';
+
+import * as PlotlyJS from 'plotly.js-dist-min';
+import { PlotlyModule } from 'angular-plotly.js';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +31,8 @@ import { DisclaimerComponent } from './text-components/disclaimer/disclaimer.com
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ChartDisplayComponent } from './main-display/chart-display/chart-display.component';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -58,7 +64,9 @@ import { ChartDisplayComponent } from './main-display/chart-display/chart-displa
     MatExpansionModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CommonModule,
+    PlotlyModule
   ],
   providers: [],
   bootstrap: [AppComponent]
