@@ -2,9 +2,13 @@
   Chart display works!
 </h1><br>
 
-<div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
-  {{ search.ticker }}
-</div><br>
+<div>
+
+  <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
+    {{ search.ticker }}
+  </div><br>
+  <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot> -->
+</div>
 
 <h3 style="color:white; text-align: center;" *ngIf="searches.length <= 0 && !isLoading">No recent charts to display!</h3>
 
