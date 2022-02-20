@@ -17,7 +17,7 @@ export class MainDisplayComponent implements OnInit {
   ngOnInit() { }
 
   onSearchAdded(search) {
-    this.storedSearches.push(search); //adds search to "searched" array
+    this.storedSearches.unshift(search); //adds search to "searched" array
     // console.log("main-display: ")
     // console.log(this.storedSearches)
   }
