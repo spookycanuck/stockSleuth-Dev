@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { Search } from '../search.model';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-side-search',
@@ -26,7 +27,7 @@ export class SideSearchComponent implements OnInit {
   userSearch = '';
   tickerLow = null;
   tickerHigh = null;
-  @Output() searchCreated = new EventEmitter();
+  @Output() searchCreated = new EventEmitter<any>();
 
   constructor(private router: ActivatedRoute) { }
 
@@ -96,6 +97,11 @@ export class SideSearchComponent implements OnInit {
     return(this.result)
   }
 
+  sendData(search, priceData, isSubmitted) {
+    this.searchCreated.emit({search, priceData, isSubmitted})
+    // console.log(search, priceData, isSubmitted)
+  }
+
   async onAddSearch(form: NgForm) {
     this.isSubmitted = true;
     this.isInvalid = false;
@@ -139,20 +145,11 @@ export class SideSearchComponent implements OnInit {
     the API's most recent data to the "Recent Searches" panel.
     */
     this.searches.push(search);
-    this.searchCreated.emit(search);
+    // this.searchCreated.emit(search);
+    this.sendData(search, this.priceData, this.isSubmitted)
 
-    /*
-      TODO: emit search, priceData, and a variable that shows that the search
-        button was clicked. That way, when the search button is clicked it will
-        push the info to the chart display and the chart display will only
-        run the displayed info if it was clicked.
-
-      For now: Display most recent search's total API data in the
-        chart-display component
-    */
-
-    console.log(this.searches)
-    console.log(this.priceData)
+    // console.log(this.searches)
+    // console.log(this.priceData)
 
   }
 

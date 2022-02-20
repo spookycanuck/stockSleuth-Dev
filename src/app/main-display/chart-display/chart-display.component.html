@@ -2,10 +2,25 @@
   Chart display works!
 </h1><br>
 
-<div>
-
+<div *ngIf="searches.length > 0 && !isLoading">
   <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
-    {{ search.ticker }}
+    <p>Ticker:
+      {{ searches[0].search.ticker }}
+    </p>
+    <p>Company Name:
+      {{ searches[0].search.description }}
+    </p>
+    <p>
+      Most Recent High:
+      {{ searches[0].priceData.highs[searches[0].priceData.highs.length-1] }}
+    </p>
+    <p>
+      Most Recent Low:
+      {{ searches[0].priceData.lows[searches[0].priceData.lows.length-1] }}
+    </p>
+    <p>Date of Most Recent Data Pull:
+      {{ searches[0].priceData.dates[searches[0].priceData.dates.length-1] }}
+    </p>
   </div><br>
   <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot> -->
 </div>
