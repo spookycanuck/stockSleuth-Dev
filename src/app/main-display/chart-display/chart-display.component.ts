@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -14,11 +14,10 @@ export class ChartDisplayComponent implements OnInit {
   searches = [];
   priceData;
   isLoading = false;
-  isSubmitted;
-  totalSearches = 0;
-  searchArrSub: Search[] = [];
+  dataPresent = false;
 
   private searchesSub: Subscription;
+  private dataSub: Subscription;
 
 //   public graph = {
 //     data: [
@@ -28,64 +27,76 @@ export class ChartDisplayComponent implements OnInit {
 //     layout: {width: 320, height: 240, title: 'A Fancy Plot'}
 // };
 
-
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
-    /*
-      The following must implement onInit() because the user is not actively
-      submitting data into the chart-display component:
+  /*
+    TODO: There is a bug where "Recent Searches" and "Chart Display"
+      data gets dumped when navigating away from the page. If you add the
+      same ticker ID back to the chart, it allows a duplicate.
 
-      Need a .subscribe() statement here. I want to subscribe to the state of
-      "isSubmitted" - a variable from side-search that turns to true when the
-      user clicks the search button. If isSubmitted is true, execute toggleData().
-      If not, log "nothing here yet" to console.
+      Suspected error is with priceData being passed as a variable instead
+      of updating an array. ngOnDestroy() won't dump the variable or something.
+      HTML's ngIf statement seems to not be working/updating after navigating
+      away from the page.
 
-      Alternatively, we can also subscribe to searches[] and do something
-      similar if searches[] is not null. That may me more efficient.
-
-      ngIf will not work here because it's a conditional statement that is not
-      changing state/being subscribed to.
-
-      when the subscribed statement returns true, the app will build a chart.
-    */
-
-    // TLDR - this is what we're trying to constantly look for:
-    // if (this.searches.length > 0) {
-    //   console.log(this.totalSearches) //will be replaced with "build a chart"
-    // }
-    // else {
-    //   console.log(this.totalSearches)
-    //   console.log(this.searchArrSub)
-    // }
-
+      Press on, for now. I think adding persistent data and running onDestroy()
+      on user logout would be better and potentially this issue
+  */
+    console.log("OnInit - data present?\n", this.dataPresent)
     this.searches = this.searchService.getSearches();
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searches = searches;
-        console.log("searches Subscription:")
-        console.log(this.searches)
+        // console.log("searches Subscription:")
+        // console.log(this.searches)
       });
-    this.searchService.getMainDisplayData() //actively updating priceData on search
+    this.dataSub = this.searchService.getMainDisplayData() //actively updating priceData on search
       .subscribe((priceData) => {
         this.priceData = priceData
-        console.log("priceData Subscription:")
-        console.log(this.priceData)
+        // console.log("priceData Subscription:")
+        // console.log(this.priceData)
+        if (this.searches[0].id = true) {
+          this.toggleData(this.dataPresent);
+          this.dataPresent = this.searches[0].id;
+        }
+        else {
+          console.log("is not submitted")
+        }
       })
   }
 
-  toggleData() {
-    if (this.searches.length > 0) {
-    console.log("Chart-display")
-    console.log(this.searches)
+  toggleData(isSubmitted) {
+    console.log("-----\nToggleData Function.\n Updated on New Search!\n-----")
+    if (isSubmitted == true) {
+      this.logData();
+    }
+    else {
+      isSubmitted = this.searches[0].id;
+      console.log("isSubmitted Status: ", isSubmitted)
+      this.logData();
     }
   }
+
+  logData() {
+    console.log("Searches Array: ")
+    console.log(this.searches)
+    console.log("Price Data Array: ")
+    console.log(this.priceData)
+  }
+
+
+  /*
+    TODO: Next step is to build a graph. Currently, console does not like
+      the data binding for "Data" on line 29 in the HTML.
+  */
+
 
   // chartGraph() {
   //   var graph = {
   //     data: {
-  //         x: this.searches[0].priceData.dates[this.searches[0].priceData.dates.length-1],
-  //         y: this.searches[0].priceData.adjCloses[this.searches[0].priceData.adjCloses.length-1],
+  //         x: this.priceData[0].dates,
+  //         y: this.priceData[0].adjCloses,
   //         mode: 'lines',
   //         marker: {
   //             color: "black",
@@ -131,6 +142,9 @@ export class ChartDisplayComponent implements OnInit {
   // }
 
   ngOnDestroy() {
+    this.searches = []
+    this.priceData = null;
     this.searchesSub.unsubscribe();
+    this.dataSub.unsubscribe();
   }
 }
