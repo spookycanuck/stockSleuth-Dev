@@ -103,12 +103,12 @@ export class SideSearchComponent implements OnInit {
 
     await this.stockList(this.newSearch); //checks if ticker is valid
     if (this.tickerExists == true) {
-      console.log("Ticker: " + this.tickerExists)
+      // console.log("Ticker: " + this.tickerExists)
       this.priceData = await this.searchService.searchAPI(this.newSearch); //if valid ticker, search API for data
       this.isLoading = false;
     }
     else {
-      console.log("Ticker: " + this.tickerExists)
+      console.log("ERROR: Invalid Ticker Entered\nTicker Status: " + this.tickerExists)
       this.isInvalid = true;
       this.isLoading = false;
       return;
