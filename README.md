@@ -40,8 +40,6 @@ py wsgi.py
 
 ## Data Flow Theory
 
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
 SS Data Sequencing Chart:
 
 ```mermaid
