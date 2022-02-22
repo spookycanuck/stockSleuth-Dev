@@ -10,16 +10,9 @@ import { Search } from './search.model';
   encapsulation: ViewEncapsulation.None
 })
 export class MainDisplayComponent implements OnInit {
-  storedSearches = [];
 
   constructor(private router: ActivatedRoute) { }
 
   ngOnInit() { }
-
-  onSearchAdded(search) {
-    this.storedSearches.unshift(search); //adds search to "searched" array
-    // console.log("main-display: ")
-    // console.log(this.storedSearches)
-  }
 
 }
