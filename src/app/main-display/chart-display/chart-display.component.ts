@@ -48,14 +48,10 @@ export class ChartDisplayComponent implements OnInit {
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searches = searches;
-        // console.log("searches Subscription:")
-        // console.log(this.searches)
       });
     this.dataSub = this.searchService.getMainDisplayData() //actively updating priceData on search
       .subscribe((priceData) => {
         this.priceData = priceData
-        // console.log("priceData Subscription:")
-        // console.log(this.priceData)
         if (this.searches[0].id = true) {
           this.toggleData(this.dataPresent);
           this.dataPresent = this.searches[0].id;

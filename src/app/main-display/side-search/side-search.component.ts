@@ -19,15 +19,11 @@ export class SideSearchComponent implements OnInit {
   isSubmitted = false;
   isLoading = false;
   isInvalid = false;
-  stonkTicker = {};
-  returnStonkData = {};
   priceData = null;
 
   // variable collection from API for Search feature
-  searchID = null;
+  searchID = null; //not used right now - save for possible use in the future
   userSearch = '';
-  tickerLow = null;
-  tickerHigh = null;
 
   searchList: Search[] = [];
   private searchesSub: Subscription;
@@ -94,16 +90,15 @@ export class SideSearchComponent implements OnInit {
     this.newSearch = form.value.search.toUpperCase(); //new variable name
     this.isLoading = true;
 
-    this.searchExists(this.newSearch); //checks if ticker is already is in searches[]
+    this.searchExists(this.newSearch);
     if (this.result == true) {
       this.isLoading = false;
       this.isInvalid = true; //TO DO: change this to a different error readout
       return;
     }
 
-    await this.stockList(this.newSearch); //checks if ticker is valid
+    await this.stockList(this.newSearch); //checks if ticker is valid against stock list
     if (this.tickerExists == true) {
-      // console.log("Ticker: " + this.tickerExists)
       this.priceData = await this.searchService.searchAPI(this.newSearch); //if valid ticker, search API for data
       this.isLoading = false;
     }
@@ -115,7 +110,6 @@ export class SideSearchComponent implements OnInit {
     }
 
     this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
-    // this.searchService.getMainDisplayData(this.priceData)
   }
 
 }

@@ -11,7 +11,6 @@ export class SearchService {
   private searches: Search[] = [];
   private searchUpdated = new Subject<Search[]>();
   private priceData = new Subject();
-  // @Output() searchCreated = new EventEmitter<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,38 +28,29 @@ export class SearchService {
     This searches the user input against a list of endpoints in the API
     and then returns the data for that ticker to onAddSearch().
     */
-    var tickerLow, tickerHigh, priceData;
+    var priceData;
     const pythonURL = `http://localhost:5000/getPriceData?symbol=${userInput}`
     const response = await fetch(pythonURL);
     const responseData = await response.json();
-    tickerLow = responseData.lows[responseData.lows.length-1].toFixed(2);
-    tickerHigh = responseData.highs[responseData.highs.length-1].toFixed(2);
     priceData = responseData;
     return priceData
   }
-
-  // sendData(search, priceData, isSubmitted) {
-  //   this.searchCreated.emit({search, priceData, isSubmitted})
-  //   // console.log(search, priceData, isSubmitted)
-  // }
-
-//refactor code below
 
   getSearches() {
     return [...this.searches];
   }
 
-  addSearch(ticker, priceData, userSearch, isSubmitted) {
+  addSearch(ticker, apiData, userSearch, isSubmitted) {
     const search: Search = {
-      id: isSubmitted,
+      id: isSubmitted, //change this at some point to an auto-generated ID
       description: userSearch,
       ticker: ticker,
-      low: priceData.lows[priceData.lows.length-1].toFixed(2),
-      high: priceData.highs[priceData.highs.length-1].toFixed(2)
+      low: apiData.lows[apiData.lows.length-1].toFixed(2),
+      high: apiData.highs[apiData.highs.length-1].toFixed(2)
     };
     this.searches.push(search)
     this.searchUpdated.next([...this.searches]);
-    this.priceData.next([priceData]);
+    this.priceData.next([apiData]);
   }
 
   getMainDisplayData() {
