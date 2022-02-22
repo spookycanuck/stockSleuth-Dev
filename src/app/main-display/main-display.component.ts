@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Search } from './search.model';
-
 @Component({
   selector: 'app-main-display',
   templateUrl: './main-display.component.html',
