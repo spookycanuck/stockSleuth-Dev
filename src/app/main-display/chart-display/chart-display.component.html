@@ -5,12 +5,12 @@
 <div *ngIf="searches.length > 0 && !isLoading">
   <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
     <p>Ticker:
-      {{ searches[0].search.ticker }}
+      {{ searches[searches.length-1].ticker }}
     </p>
     <p>Company Name:
-      {{ searches[0].search.description }}
+      {{ searches[searches.length-1].description }}
     </p>
-    <p>
+    <!-- <p>
       Most Recent High:
       {{ searches[0].priceData.highs[searches[0].priceData.highs.length-1] }}
     </p>
@@ -24,7 +24,7 @@
     <p>
       isSubmitted state:
       {{ searches[0].isSubmitted }}
-    </p>
+    </p> -->
   </div><br>
   <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot> -->
 </div>

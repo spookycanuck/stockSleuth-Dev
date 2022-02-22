@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-
+import { Subscription } from 'rxjs';
 
 import { Search } from '../search.model';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-chart-display',
@@ -11,9 +11,14 @@ import { Search } from '../search.model';
   styleUrls: []
 })
 export class ChartDisplayComponent implements OnInit {
-  @Input() searches = [];
+  searches = [];
+  priceData;
   isLoading = false;
-  isSubmitted = false;
+  isSubmitted;
+  totalSearches = 0;
+  searchArrSub: Search[] = [];
+
+  private searchesSub: Subscription;
 
 //   public graph = {
 //     data: [
@@ -24,7 +29,7 @@ export class ChartDisplayComponent implements OnInit {
 // };
 
 
-  constructor(private router: ActivatedRoute) { }
+  constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
     /*
@@ -46,17 +51,34 @@ export class ChartDisplayComponent implements OnInit {
     */
 
     // TLDR - this is what we're trying to constantly look for:
-    if (this.isSubmitted) {
-      this.toggleData(); //will be replaced with "build a chart"
-    }
-    else {
-      console.log("nothing here yet")
-    }
+    // if (this.searches.length > 0) {
+    //   console.log(this.totalSearches) //will be replaced with "build a chart"
+    // }
+    // else {
+    //   console.log(this.totalSearches)
+    //   console.log(this.searchArrSub)
+    // }
+
+    this.searches = this.searchService.getSearches();
+    this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
+      .subscribe((searches: Search[]) => {
+        this.searches = searches;
+        console.log("searches Subscription:")
+        console.log(this.searches)
+      });
+    this.searchService.getMainDisplayData() //actively updating priceData on search
+      .subscribe((priceData) => {
+        this.priceData = priceData
+        console.log("priceData Subscription:")
+        console.log(this.priceData)
+      })
   }
 
   toggleData() {
+    if (this.searches.length > 0) {
     console.log("Chart-display")
     console.log(this.searches)
+    }
   }
 
   // chartGraph() {
@@ -108,4 +130,7 @@ export class ChartDisplayComponent implements OnInit {
   //   }
   // }
 
+  ngOnDestroy() {
+    this.searchesSub.unsubscribe();
+  }
 }

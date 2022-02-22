@@ -9,8 +9,9 @@ import { Search } from "./search.model";
 @Injectable({ providedIn: 'root' })
 export class SearchService {
   private searches: Search[] = [];
-  private searchUpdated = new Subject<{searches: Search[], searchCount: number }>();
-  @Output() searchCreated = new EventEmitter<any>();
+  private searchUpdated = new Subject<Search[]>();
+  private priceData = new Subject();
+  // @Output() searchCreated = new EventEmitter<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -38,14 +39,32 @@ export class SearchService {
     return priceData
   }
 
+  // sendData(search, priceData, isSubmitted) {
+  //   this.searchCreated.emit({search, priceData, isSubmitted})
+  //   // console.log(search, priceData, isSubmitted)
+  // }
+
+//refactor code below
+
   getSearches() {
-    this.http
-      .get<{}
+    return [...this.searches];
   }
 
-  sendData(search, priceData, isSubmitted) {
-    this.searchCreated.emit({search, priceData, isSubmitted})
-    // console.log(search, priceData, isSubmitted)
+  addSearch(ticker, priceData, userSearch, isSubmitted) {
+    const search: Search = {
+      id: isSubmitted,
+      description: userSearch,
+      ticker: ticker,
+      low: priceData.lows[priceData.lows.length-1].toFixed(2),
+      high: priceData.highs[priceData.highs.length-1].toFixed(2)
+    };
+    this.searches.push(search)
+    this.searchUpdated.next([...this.searches]);
+    this.priceData.next([priceData]);
+  }
+
+  getMainDisplayData() {
+    return this.priceData.asObservable();
   }
 
   getSearchUpdateListener() {

@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { Search } from '../search.model';
 import { SearchService } from '../search.service';
@@ -27,13 +28,20 @@ export class SideSearchComponent implements OnInit {
   userSearch = '';
   tickerLow = null;
   tickerHigh = null;
-  @Output() searchCreated = new EventEmitter<any>();
+
+  searchList: Search[] = [];
+  private searchesSub: Subscription;
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
     this.searchService.getStockList(); //save Stock List from API to session storage on init
-   }
+    this.searchList = this.searchService.getSearches();
+    this.searchesSub = this.searchService.getSearchUpdateListener()
+      .subscribe((searches: Search[]) => {
+        this.searches = searches;
+      });
+  }
 
   async stockList(userInput) {
     /*
@@ -76,11 +84,6 @@ export class SideSearchComponent implements OnInit {
     return(this.result)
   }
 
-  sendData(search, priceData, isSubmitted) {
-    this.searchCreated.emit({search, priceData, isSubmitted})
-    // console.log(search, priceData, isSubmitted)
-  }
-
   async onAddSearch(form: NgForm) {
     this.isSubmitted = true;
     this.isInvalid = false;
@@ -111,25 +114,8 @@ export class SideSearchComponent implements OnInit {
       return;
     }
 
-    const search: Search = {
-      id: this.searchID,
-      description: this.userSearch,
-      ticker: this.newSearch,
-      low: this.priceData.lows[this.priceData.lows.length-1].toFixed(2),
-      high: this.priceData.highs[this.priceData.highs.length-1].toFixed(2)
-    };
-
-    /*
-    And then push it into the array below, so I can output
-    the API's most recent data to the "Recent Searches" panel.
-    */
-    this.searches.push(search);
-    // this.searchCreated.emit(search);
-    this.sendData(search, this.priceData, this.isSubmitted)
-
-    // console.log(this.searches)
-    // console.log(this.priceData)
-
+    this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
+    // this.searchService.getMainDisplayData(this.priceData)
   }
 
 }
