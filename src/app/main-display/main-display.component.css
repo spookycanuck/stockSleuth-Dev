@@ -36,6 +36,7 @@ h6 {
   margin: 15px auto;
 }
 
-mat-spinner {
+mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   margin: auto;
+  stroke: #BB0A21 !important;
 }
