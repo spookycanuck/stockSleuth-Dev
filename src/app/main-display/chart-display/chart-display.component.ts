@@ -13,19 +13,11 @@ import { SearchService } from '../search.service';
 export class ChartDisplayComponent implements OnInit {
   searches = [];
   priceData;
-  isLoading = false;
   dataPresent = false;
 
   private searchesSub: Subscription;
   private dataSub: Subscription;
 
-//   public graph = {
-//     data: [
-//         { x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'} },
-//         { x: [1, 2, 3], y: [2, 5, 3], type: 'bar' },
-//     ],
-//     layout: {width: 320, height: 240, title: 'A Fancy Plot'}
-// };
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
@@ -51,7 +43,23 @@ export class ChartDisplayComponent implements OnInit {
       });
     this.dataSub = this.searchService.getMainDisplayData() //actively updating priceData on search
       .subscribe((priceData) => {
-        this.priceData = priceData
+        this.priceData = priceData;
+
+        // Building graph window
+        this.graph.data[0]['name'] = this.searches[this.searches.length-1].ticker;
+        this.graph.data[0]['x'] = this.priceData[0].dates;
+        this.graph.data[0]['y'] = this.priceData[0].adjCloses;
+        this.graph.layout['title'] = this.searches[this.searches.length-1].description + " Adjusted Close";
+
+        // Building graph volume
+        this.graph.data[1]['name'] = this.searches[this.searches.length-1].ticker,
+        this.graph.data[1]['x'] = this.priceData[0].dates;
+        this.graph.data[1]['y'] = this.priceData[0].volumes;
+        this.graph.data[1].marker['color'] = this.priceData[0].colors;
+
+        // Building graph layout
+        this.graph.layout.yaxis2['range'] = [0, (Math.max(...this.priceData[0].volumes) * 10)]
+
         if (this.searches[0].id = true) {
           this.toggleData(this.dataPresent);
           this.dataPresent = this.searches[0].id;
@@ -79,67 +87,79 @@ export class ChartDisplayComponent implements OnInit {
     console.log(this.searches)
     console.log("Price Data Array: ")
     console.log(this.priceData)
+    // console.log("GRAPH")
+    // console.log(this.graph)
   }
 
+  public graph = {
+    data: [
+      {
+        mode: 'lines',
+        marker: {
+          color: "black",
+          opacity: 1,
+        }
+      },
+      {
+        marker: {
+            opacity: 0.5
+        },
+        type: 'bar',
+        yaxis: "y2"
+      },
+  ],
 
-  /*
-    TODO: Next step is to build a graph. Currently, console does not like
-      the data binding for "Data" on line 29 in the HTML.
-  */
+    layout: {
+        height: 900,
+        showlegend: true,
+        hovermode: 'x',
+        autosize: true,
+        legend: {"orientation": "v"},
+        margin: { l: 5, r: 5, t: 50, b: 5 },
+        xaxis: {
+            type: 'category',
+            categoryorder: "category ascending",
+            showspikes: true,
+            spikemode: 'across',
+            spikesnap: 'cursor',
+            showline: true,
+            showgrid: false,
+            showticklabels: true,
+            tickangle: 45,
+            autorange: true,
+            nticks: 12,
+            rangeslider: {visible: false},
+            automargin: true,
+        },
+        yaxis: {
+            showticklabels: false,
+            showgrid: false,
+            fixedrange: true,
+            automargin: true
+        },
+        yaxis2: {
+          visible: false,
+          showgrid: false,
+          title: 'Volume',
+          type: 'linear',
+          overlaying: 'y',
+          side: 'right',
+          marker: {
+              opacity: .5
+          },
+          fixedrange: true
+      }
+    },
 
-
-  // chartGraph() {
-  //   var graph = {
-  //     data: {
-  //         x: this.priceData[0].dates,
-  //         y: this.priceData[0].adjCloses,
-  //         mode: 'lines',
-  //         marker: {
-  //             color: "black",
-  //             opacity: 1,
-  //         }
-  //     },
-
-  //     layout: {
-  //         title: `Adjusted Close`,
-  //         showlegend: true,
-  //         hovermode: 'x',
-  //         autosize: true,
-  //         legend: {"orientation": "h"},
-  //         margin: { l: 5, r: 5, t: 50, b: 5 },
-  //         xaxis: {
-  //             type: 'category',
-  //             categoryorder: "category ascending",
-  //             showspikes: true,
-  //             spikemode: 'across',
-  //             spikesnap: 'cursor',
-  //             showline: true,
-  //             showgrid: false,
-  //             showticklabels: true,
-  //             tickangle: 45,
-  //             autorange: true,
-  //             nticks: 12,
-  //             rangeslider: {visible: false},
-  //             automargin: true,
-  //         },
-  //         yaxis: {
-  //             showticklabels: false,
-  //             showgrid: false,
-  //             fixedrange: true,
-  //             automargin: true
-  //         }
-  //     },
-
-  //     config: {
-  //         responsive: true,
-  //         displayModeBar: false
-  //     }
-  //   }
-  // }
+    config: {
+        responsive: true,
+        displayModeBar: false
+    }
+  }
 
   ngOnDestroy() {
-    this.searches = []
-    this.priceData = null;
+    // this.searches = []
+    // this.priceData = null;
     this.searchesSub.unsubscribe();
     this.dataSub.unsubscribe();
   }
