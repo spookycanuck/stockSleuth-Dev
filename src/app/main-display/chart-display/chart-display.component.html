@@ -2,8 +2,8 @@
   Chart display works!
 </h1><br>
 
-<div *ngIf="searches.length > 0 && !isLoading">
-  <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
+<div *ngIf="searches.length > 0; else noCharts">
+  <!-- <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
     <p>Ticker:
       {{ searches[searches.length-1].ticker }}
     </p>
@@ -25,9 +25,11 @@
       isSubmitted state:
       {{ searches[searches.length-1].id }}
     </p>
-  </div><br>
-  <!-- <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot> -->
+  </div><br> -->
+  <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
 </div>
 
-<h3 style="color:white; text-align: center;" *ngIf="searches.length <= 0 && !isLoading">No recent charts to display!</h3>
+<ng-template #noCharts>
+  <h3 style="color:white; text-align: center;">No recent charts to display!</h3>
+</ng-template>
 
