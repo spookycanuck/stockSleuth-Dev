@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Search } from '../search.model';
+import { Graph } from './graph.model';
 import { SearchService } from '../search.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { SearchService } from '../search.service';
 })
 export class ChartDisplayComponent implements OnInit {
   searches = [];
-  priceData;
+  graph: Graph[];
   dataPresent = false;
 
   private searchesSub: Subscription;
@@ -43,25 +44,9 @@ export class ChartDisplayComponent implements OnInit {
       });
     this.dataSub = this.searchService.getMainDisplayData() //actively updating priceData on search
       .subscribe((priceData) => {
-        this.priceData = priceData;
-
-        // Building graph window
-        this.graph.data[0]['name'] = this.searches[this.searches.length-1].ticker;
-        this.graph.data[0]['x'] = this.priceData[0].dates;
-        this.graph.data[0]['y'] = this.priceData[0].adjCloses;
-        this.graph.layout['title'] = this.searches[this.searches.length-1].description + " Adjusted Close";
-
-        // Building graph volume
-        this.graph.data[1]['name'] = this.searches[this.searches.length-1].ticker,
-        this.graph.data[1]['x'] = this.priceData[0].dates;
-        this.graph.data[1]['y'] = this.priceData[0].volumes;
-        this.graph.data[1].marker['color'] = this.priceData[0].colors;
-
-        // Building graph layout
-        this.graph.layout.yaxis2['range'] = [0, (Math.max(...this.priceData[0].volumes) * 10)]
-
+        this.setGraphValues(priceData);
         if (this.searches[0].id = true) {
-          this.toggleData(this.dataPresent);
+          this.toggleData(this.dataPresent, priceData);
           this.dataPresent = this.searches[0].id;
         }
         else {
@@ -70,28 +55,52 @@ export class ChartDisplayComponent implements OnInit {
       })
   }
 
-  toggleData(isSubmitted) {
+  toggleData(isSubmitted, priceData) {
     console.log("-----\nToggleData Function.\n Updated on New Search!\n-----")
     if (isSubmitted == true) {
-      this.logData();
+      this.logData(priceData);
     }
     else {
       isSubmitted = this.searches[0].id;
-      console.log("isSubmitted Status: ", isSubmitted)
-      this.logData();
+      console.log("isSubmitted Status: ", isSubmitted);
+      this.logData(priceData);
     }
   }
 
-  logData() {
-    console.log("Searches Array: ")
-    console.log(this.searches)
-    console.log("Price Data Array: ")
-    console.log(this.priceData)
-    // console.log("GRAPH")
+  logData(priceData) {
+    console.log("Searches Array: ");
+    console.log(this.searches);
+    console.log("Price Data Array: ");
+    console.log(priceData);
+    // console.log("Graph Model")
     // console.log(this.graph)
   }
 
-  public graph = {
+  setGraphValues(apiData) {
+    const graph = this.graph;
+    const mostRecentSearch = this.searches[this.searches.length-1];
+    const graphWindow = this.graphDisplay.data[0];
+    const graphData = this.graphDisplay.data[1];
+    const graphLayout = this.graphDisplay.layout;
+    const priceData = apiData[0];
+
+    // Building graph window
+    graphWindow['name'] = mostRecentSearch.ticker;
+    graphWindow['x'] = priceData.dates;
+    graphWindow['y'] = priceData.adjCloses;
+    graphLayout['title'] = mostRecentSearch.description + " Adjusted Close";
+
+    // Building graph volume
+    graphData['name'] = mostRecentSearch.ticker;
+    graphData['x'] = priceData.dates;
+    graphData['y'] = priceData.volumes;
+    graphData.marker['color'] = priceData.colors;
+
+    // Building graph layout
+    graphLayout.yaxis2['range'] = [0, (Math.max(...priceData.volumes) * 10)];
+  }
+
+  public graphDisplay = {
     data: [
       {
         mode: 'lines',
