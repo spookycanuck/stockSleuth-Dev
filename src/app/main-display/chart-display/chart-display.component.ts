@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Search } from '../search.model';
-import { Graph } from './graph.model';
 import { SearchService } from '../search.service';
 
 @Component({
@@ -13,11 +12,13 @@ import { SearchService } from '../search.service';
 })
 export class ChartDisplayComponent implements OnInit {
   searches = [];
-  graph: Graph[];
+  data = [];
   dataPresent = false;
 
+  public graph;
   private searchesSub: Subscription;
   private dataSub: Subscription;
+
 
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
@@ -41,129 +42,40 @@ export class ChartDisplayComponent implements OnInit {
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searches = searches;
-      });
-    this.dataSub = this.searchService.getMainDisplayData() //actively updating priceData on search
-      .subscribe((priceData) => {
-        this.setGraphValues(priceData);
+        this.data = this.searches[this.searches.length-1].data;
+        this.graph = this.searchService.setGraphValues(this.data)
+        // console.log(this.searches)
+        // console.log(this.data)
         if (this.searches[0].id = true) {
-          this.toggleData(this.dataPresent, priceData);
+          this.toggleData(this.dataPresent, searches);
           this.dataPresent = this.searches[0].id;
         }
         else {
           console.log("is not submitted")
         }
-      })
+      });
   }
 
-  toggleData(isSubmitted, priceData) {
+  toggleData(isSubmitted, searchData) {
     console.log("-----\nToggleData Function.\n Updated on New Search!\n-----")
     if (isSubmitted == true) {
-      this.logData(priceData);
+      this.logData(searchData);
     }
     else {
       isSubmitted = this.searches[0].id;
       console.log("isSubmitted Status: ", isSubmitted);
-      this.logData(priceData);
+      this.logData(searchData);
     }
   }
 
-  logData(priceData) {
+  logData(searchData) {
     console.log("Searches Array: ");
-    console.log(this.searches);
-    console.log("Price Data Array: ");
-    console.log(priceData);
+    console.log(searchData)
+    console.log("Latest Search Data: ")
+    console.log(searchData[searchData.length-1]);
+    console.log("==========")
     // console.log("Graph Model")
     // console.log(this.graph)
-  }
-
-  setGraphValues(apiData) {
-    const graph = this.graph;
-    const mostRecentSearch = this.searches[this.searches.length-1];
-    const graphWindow = this.graphDisplay.data[0];
-    const graphData = this.graphDisplay.data[1];
-    const graphLayout = this.graphDisplay.layout;
-    const priceData = apiData[0];
-
-    // Building graph window
-    graphWindow['name'] = mostRecentSearch.ticker;
-    graphWindow['x'] = priceData.dates;
-    graphWindow['y'] = priceData.adjCloses;
-    graphLayout['title'] = mostRecentSearch.description + " Adjusted Close";
-
-    // Building graph volume
-    graphData['name'] = mostRecentSearch.ticker;
-    graphData['x'] = priceData.dates;
-    graphData['y'] = priceData.volumes;
-    graphData.marker['color'] = priceData.colors;
-
-    // Building graph layout
-    graphLayout.yaxis2['range'] = [0, (Math.max(...priceData.volumes) * 10)];
-  }
-
-  public graphDisplay = {
-    data: [
-      {
-        mode: 'lines',
-        marker: {
-          color: "black",
-          opacity: 1,
-        }
-      },
-      {
-        marker: {
-            opacity: 0.5
-        },
-        type: 'bar',
-        yaxis: "y2"
-      },
-  ],
-
-    layout: {
-        height: 900,
-        showlegend: true,
-        hovermode: 'x',
-        autosize: true,
-        legend: {"orientation": "v"},
-        margin: { l: 5, r: 5, t: 50, b: 5 },
-        xaxis: {
-            type: 'category',
-            categoryorder: "category ascending",
-            showspikes: true,
-            spikemode: 'across',
-            spikesnap: 'cursor',
-            showline: true,
-            showgrid: false,
-            showticklabels: true,
-            tickangle: 45,
-            autorange: true,
-            nticks: 12,
-            rangeslider: {visible: false},
-            automargin: true,
-        },
-        yaxis: {
-            showticklabels: false,
-            showgrid: false,
-            fixedrange: true,
-            automargin: true
-        },
-        yaxis2: {
-          visible: false,
-          showgrid: false,
-          title: 'Volume',
-          type: 'linear',
-          overlaying: 'y',
-          side: 'right',
-          marker: {
-              opacity: .5
-          },
-          fixedrange: true
-      }
-    },
-
-    config: {
-        responsive: true,
-        displayModeBar: false
-    }
   }
 
   ngOnDestroy() {
