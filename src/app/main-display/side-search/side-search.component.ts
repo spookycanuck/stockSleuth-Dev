@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { faRemove } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 import { Search } from '../search.model';
 import { SearchService } from '../search.service';
@@ -20,6 +22,9 @@ export class SideSearchComponent implements OnInit {
   isLoading = false;
   isInvalid = false;
   priceData = null;
+
+  faRemove = faRemove;
+  faGraph = faChartLine;
 
   // variable collection from API for Search feature
   searchID = null; //not used right now - save for possible use in the future
@@ -110,6 +115,14 @@ export class SideSearchComponent implements OnInit {
     }
 
     this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
+  }
+
+  deleteSearch() {
+    console.log("Delete Button Clicked!")
+  }
+
+  graphSearch() {
+    console.log("Graph Button Clicked!")
   }
 
 }

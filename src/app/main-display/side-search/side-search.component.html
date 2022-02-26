@@ -35,19 +35,24 @@
   <h6>Recent Searches:</h6>
   <mat-expansion-panel *ngFor="let search of searches" style="margin: 3px auto">
     <mat-expansion-panel-header class="hoverSearch">
-        {{ search.ticker }}
-      </mat-expansion-panel-header>
-      <div class="description">
-        <p>Company Name:
-          {{ search.description }}
-        </p>
-        <p>High:
-          {{ search.high }}
-        </p>
-        <p>Low:
-          {{ search.low }}
-        </p>
-      </div>
+      {{ search.ticker }}
+    </mat-expansion-panel-header>
+    <div class="description">
+      <p>Company Name:
+        {{ search.description }}
+      </p>
+      <p>High:
+        {{ search.high }}
+      </p>
+      <p>Low:
+        {{ search.low }}
+      </p>
+    </div>
+    <div>
+        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch()"></fa-icon>
+        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch()"></fa-icon>
+    </div>
+
     </mat-expansion-panel>
 </div><br>
 <mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
