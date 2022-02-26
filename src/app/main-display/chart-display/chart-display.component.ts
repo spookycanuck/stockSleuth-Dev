@@ -17,9 +17,6 @@ export class ChartDisplayComponent implements OnInit {
 
   public graph;
   private searchesSub: Subscription;
-  private dataSub: Subscription;
-
-
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
@@ -76,8 +73,6 @@ export class ChartDisplayComponent implements OnInit {
 
   ngOnDestroy() {
     // this.searches = []
-    // this.priceData = null;
     this.searchesSub.unsubscribe();
-    this.dataSub.unsubscribe();
   }
 }
