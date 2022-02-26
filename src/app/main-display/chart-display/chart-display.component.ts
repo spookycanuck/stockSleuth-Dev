@@ -44,8 +44,6 @@ export class ChartDisplayComponent implements OnInit {
         this.searches = searches;
         this.data = this.searches[this.searches.length-1].data;
         this.graph = this.searchService.setGraphValues(this.data)
-        // console.log(this.searches)
-        // console.log(this.data)
         if (this.searches[0].id = true) {
           this.toggleData(this.dataPresent, searches);
           this.dataPresent = this.searches[0].id;
@@ -74,8 +72,6 @@ export class ChartDisplayComponent implements OnInit {
     console.log("Latest Search Data: ")
     console.log(searchData[searchData.length-1]);
     console.log("==========")
-    // console.log("Graph Model")
-    // console.log(this.graph)
   }
 
   ngOnDestroy() {

@@ -52,7 +52,6 @@ export class SearchService {
     };
     this.searches.push(search)
     this.searchUpdated.next([...this.searches]);
-    // this.priceData.next([apiData]);
   }
 
   getMainDisplayData() {
@@ -64,15 +63,9 @@ export class SearchService {
   }
 
   setGraphValues(apiData) {
-    //setGraphValues needs to be in search service.
-    //graph.module.ts needs to be in global main-display.
-    //need to populate this.graph[] like I am doing with this.searches[]
     const priceData = apiData;
     const mostRecentSearch = this.searches[this.searches.length-1];
     const graph = this.graph;
-    // var graphWindow = graph.data;
-    // var graphData = graph.data;
-    // var graphLayout = graph.layout;
 
     // Building graph window
     graph.data[0].name = mostRecentSearch.ticker;
