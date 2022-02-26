@@ -36,6 +36,16 @@ h6 {
   margin: 15px auto;
 }
 
+.iconStyle {
+  padding: 0;
+  transition: 0.2s;
+}
+
+.iconStyle:hover {
+  color:#BB0A21;
+  transform: scale(1.5);
+}
+
 mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   margin: auto;
   stroke: #BB0A21 !important;
