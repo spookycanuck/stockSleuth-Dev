@@ -4,13 +4,14 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 
 import { Search } from "./search.model";
-
+import { Graph } from "./chart-display/graph";
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
   private searches: Search[] = [];
   private searchUpdated = new Subject<Search[]>();
   private priceData = new Subject();
+  private graph = Graph;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -46,11 +47,12 @@ export class SearchService {
       description: userSearch,
       ticker: ticker,
       low: apiData.lows[apiData.lows.length-1].toFixed(2),
-      high: apiData.highs[apiData.highs.length-1].toFixed(2)
+      high: apiData.highs[apiData.highs.length-1].toFixed(2),
+      data: apiData
     };
     this.searches.push(search)
     this.searchUpdated.next([...this.searches]);
-    this.priceData.next([apiData]);
+    // this.priceData.next([apiData]);
   }
 
   getMainDisplayData() {
@@ -59,6 +61,35 @@ export class SearchService {
 
   getSearchUpdateListener() {
     return this.searchUpdated.asObservable();
+  }
+
+  setGraphValues(apiData) {
+    //setGraphValues needs to be in search service.
+    //graph.module.ts needs to be in global main-display.
+    //need to populate this.graph[] like I am doing with this.searches[]
+    const priceData = apiData;
+    const mostRecentSearch = this.searches[this.searches.length-1];
+    const graph = this.graph;
+    // var graphWindow = graph.data;
+    // var graphData = graph.data;
+    // var graphLayout = graph.layout;
+
+    // Building graph window
+    graph.data[0].name = mostRecentSearch.ticker;
+    graph.data[0].x = priceData.dates;
+    graph.data[0].y = priceData.adjCloses;
+    graph.layout.title = mostRecentSearch.description + " Adjusted Close";
+
+    // Building graph volume
+    graph.data[1].name = mostRecentSearch.ticker;
+    graph.data[1].x = priceData.dates;
+    graph.data[1].y = priceData.volumes;
+    graph.data[1].marker.color = priceData.colors;
+
+    // Building graph layout
+    graph.layout.yaxis2.range = [0, (Math.max(...priceData.volumes) * 10)];
+
+    return graph;
   }
 
 }
