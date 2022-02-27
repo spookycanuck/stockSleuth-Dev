@@ -43,7 +43,7 @@ h6 {
 
 .iconStyle:hover {
   color:#BB0A21;
-  transform: scale(1.5);
+  transform: scale(1.25) !important;
 }
 
 mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
