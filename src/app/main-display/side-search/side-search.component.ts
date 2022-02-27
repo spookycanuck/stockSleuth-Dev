@@ -117,12 +117,12 @@ export class SideSearchComponent implements OnInit {
     this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
   }
 
-  deleteSearch() {
-    console.log("Delete Button Clicked!")
+  deleteSearch(ticker: string) {
+    this.searchService.deleteSearch(ticker)
   }
 
-  graphSearch() {
-    console.log("Graph Button Clicked!")
+  graphSearch(tickerId) {
+    this.searchService.graphSearch(tickerId)
   }
 
 }

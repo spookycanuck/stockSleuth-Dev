@@ -10,7 +10,6 @@ import { Graph } from "./chart-display/graph";
 export class SearchService {
   private searches: Search[] = [];
   private searchUpdated = new Subject<Search[]>();
-  private priceData = new Subject();
   private graph = Graph;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -54,8 +53,19 @@ export class SearchService {
     this.searchUpdated.next([...this.searches]);
   }
 
-  getMainDisplayData() {
-    return this.priceData.asObservable();
+  deleteSearch(tickerId) {
+    this.searches = this.searches.filter(item => item.ticker !== tickerId);
+    this.searchUpdated.next([...this.searches]);
+    this.getSearchUpdateListener();
+  }
+
+  graphSearch(apiData) {
+    for(var i = 0; i < this.searches.length; i++) {
+      if(this.searches[i].ticker == apiData) {
+        var doody = this.searches[i]
+      }
+    }
+    this.setGraphValues(doody)
   }
 
   getSearchUpdateListener() {
@@ -63,18 +73,17 @@ export class SearchService {
   }
 
   setGraphValues(apiData) {
-    const priceData = apiData;
-    const mostRecentSearch = this.searches[this.searches.length-1];
+    const priceData = apiData.data;
     const graph = this.graph;
 
     // Building graph window
-    graph.data[0].name = mostRecentSearch.ticker;
+    graph.data[0].name = apiData.ticker;
     graph.data[0].x = priceData.dates;
     graph.data[0].y = priceData.adjCloses;
-    graph.layout.title = mostRecentSearch.description + " Adjusted Close";
+    graph.layout.title = apiData.description + " Adjusted Close";
 
     // Building graph volume
-    graph.data[1].name = mostRecentSearch.ticker;
+    graph.data[1].name = apiData.ticker;
     graph.data[1].x = priceData.dates;
     graph.data[1].y = priceData.volumes;
     graph.data[1].marker.color = priceData.colors;
