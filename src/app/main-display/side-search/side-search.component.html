@@ -49,8 +49,8 @@
       </p>
     </div>
     <div>
-        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch()"></fa-icon>
-        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch()"></fa-icon>
+        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch(search.ticker)"></fa-icon>
+        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(search.ticker)"></fa-icon>
     </div>
 
     </mat-expansion-panel>
