@@ -37,7 +37,8 @@ export class SearchService {
   }
 
   getSearches() {
-    return [...this.searches];
+    return [...this.searches]
+    // return JSON.parse(sessionStorage.getItem('searches'));
   }
 
   addSearch(ticker, apiData, userSearch, isSubmitted) {
@@ -51,11 +52,13 @@ export class SearchService {
     };
     this.searches.push(search)
     this.searchUpdated.next([...this.searches]);
+    // sessionStorage.setItem('searches', JSON.stringify(this.searches))
   }
 
   deleteSearch(tickerId) {
     this.searches = this.searches.filter(item => item.ticker !== tickerId);
     this.searchUpdated.next([...this.searches]);
+    // sessionStorage.setItem('searches', JSON.stringify(this.searches))
     this.getSearchUpdateListener();
   }
 
