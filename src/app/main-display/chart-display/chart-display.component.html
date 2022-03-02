@@ -2,8 +2,9 @@
   Chart display works!
 </h1><br>
 
-<div *ngIf="searches.length > 0; else noCharts">
-  <div *ngFor="let search of (searches | slice: searches.length - 1)" style="text-align:center; color: white; margin: 3px auto">
+
+<div *ngIf="searchList && (searchList.length > 0); else noCharts" >
+  <div *ngFor="let search of (searchList | slice: searchList.length - 1)" style="text-align:center; color: white; margin: 3px auto">
     <!-- <p>Ticker:
       {{ searches[searches.length-1].ticker }}
     </p>
@@ -32,4 +33,3 @@
 <ng-template #noCharts>
   <h3 style="color:white; text-align: center;">No recent charts to display!</h3>
 </ng-template>
-
