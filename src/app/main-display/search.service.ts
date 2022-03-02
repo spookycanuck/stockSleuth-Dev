@@ -37,8 +37,8 @@ export class SearchService {
   }
 
   getSearches() {
-    return [...this.searches]
-    // return JSON.parse(sessionStorage.getItem('searches'));
+    this.searches = JSON.parse(sessionStorage.getItem('searches'));
+    return this.searches
   }
 
   addSearch(ticker, apiData, userSearch, isSubmitted) {
@@ -50,24 +50,30 @@ export class SearchService {
       high: apiData.highs[apiData.highs.length-1].toFixed(2),
       data: apiData
     };
-    this.searches.push(search)
-    this.searchUpdated.next([...this.searches]);
-    // sessionStorage.setItem('searches', JSON.stringify(this.searches))
+    let localSearch = [];
+    if (sessionStorage.searches) {
+      localSearch = JSON.parse(sessionStorage.getItem('searches'));
+    }
+    localSearch.push(search)
+    this.searchUpdated.next([...localSearch]);
+    sessionStorage.setItem('searches', JSON.stringify(localSearch));
   }
 
   deleteSearch(tickerId) {
-    this.searches = this.searches.filter(item => item.ticker !== tickerId);
-    this.searchUpdated.next([...this.searches]);
-    // sessionStorage.setItem('searches', JSON.stringify(this.searches))
+    let searches = this.getSearches()
+    searches = searches.filter(item => item.ticker !== tickerId);
+    this.searchUpdated.next([...searches]);
+    sessionStorage.setItem('searches', JSON.stringify(searches))
     this.getSearchUpdateListener();
   }
 
   graphSearch(apiData) {
-    for(var i = 0; i < this.searches.length; i++) {
-      if(this.searches[i].ticker == apiData) {
-        var doody = this.searches[i]
-      }
-    }
+    let searches = this.getSearches()
+    for(var i = 0; i < searches.length; i++) {
+      if(searches[i].ticker == apiData) {
+        var doody = searches[i]
+     }
+   }
     this.setGraphValues(doody)
   }
 
