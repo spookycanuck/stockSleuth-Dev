@@ -37,10 +37,11 @@ export class SideSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchService.getStockList(); //save Stock List from API to session storage on init
+    this.checkSession();
     this.searchList = this.searchService.getSearches();
     this.searchesSub = this.searchService.getSearchUpdateListener()
       .subscribe((searches: Search[]) => {
-        this.searches = searches;
+        this.searchList = searches;
       });
   }
 
@@ -74,7 +75,7 @@ export class SideSearchComponent implements OnInit {
     Checks if userInput is already in the list of "Recent Searches". Returns
     bool to onAddSearch().
     */
-    var x = this.searches
+    var x = this.searchList
     var target = x.find(temp => temp.ticker == userInput)
     if (target) {
       this.result = true;
@@ -117,12 +118,27 @@ export class SideSearchComponent implements OnInit {
     this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
   }
 
+  checkSession() {
+    let emptySearch = [];
+    if (sessionStorage.searches) {
+      return;
+    }
+    else {
+      sessionStorage.setItem('searches', JSON.stringify(emptySearch));
+    }
+  }
+
   deleteSearch(ticker: string) {
     this.searchService.deleteSearch(ticker)
   }
 
   graphSearch(tickerId) {
     this.searchService.graphSearch(tickerId)
+  }
+
+  ngOnDestroy() {
+    // this.searches = []
+    this.searchesSub.unsubscribe();
   }
 
 }
