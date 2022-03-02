@@ -11,7 +11,7 @@ import { SearchService } from '../search.service';
   styleUrls: []
 })
 export class ChartDisplayComponent implements OnInit {
-  searches = [];
+  searchList = [];
   data = [];
   dataPresent = false;
 
@@ -21,34 +21,16 @@ export class ChartDisplayComponent implements OnInit {
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
-  /*
-    TODO: There is a bug where "Recent Searches" and "Chart Display"
-      data gets dumped when navigating away from the page. If you add the
-      same ticker ID back to the chart, it allows a duplicate.
-
-      Suspected error is with priceData being passed as a variable instead
-      of updating an array. ngOnDestroy() won't dump the variable or something.
-      HTML's ngIf statement seems to not be working/updating after navigating
-      away from the page.
-
-      Press on, for now. I think adding persistent data and running onDestroy()
-      on user logout would be better and potentially this issue
-  */
     console.log("OnInit - data present?\n", this.dataPresent)
-    this.searches = this.searchService.getSearches();
+    this.searchList = this.searchService.getSearches()
+    this.getChart(this.searchList)
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
-        this.searches = searches;
-        if (this.searches.length > 0) {
-          this.data = this.searches[this.searches.length-1];
-          this.graph = this.searchService.setGraphValues(this.data)
-        }
-        else {
-          return;
-        }
-        if (this.searches[0].id = true) {
+        this.searchList = searches;
+        this.getChart(this.searchList)
+        if ((this.searchList.length > 0) && (this.searchList[0].id == true)) {
           this.toggleData(this.dataPresent, searches);
-          this.dataPresent = this.searches[0].id;
+          this.dataPresent = this.searchList[0].id;
         }
         else {
           console.log("is not submitted")
@@ -62,7 +44,7 @@ export class ChartDisplayComponent implements OnInit {
       this.logData(searchData);
     }
     else {
-      isSubmitted = this.searches[0].id;
+      isSubmitted = this.searchList[0].id;
       console.log("isSubmitted Status: ", isSubmitted);
       this.logData(searchData);
     }
@@ -74,6 +56,19 @@ export class ChartDisplayComponent implements OnInit {
     console.log("Latest Search Data: ")
     console.log(searchData[searchData.length-1]);
     console.log("==========")
+  }
+
+  getChart(searchList) {
+    if (searchList){
+    if (searchList.length > 0) {
+      console.log("searches > 0")
+      this.data = searchList[searchList.length-1];
+      console.log(this.data)
+      this.graph = this.searchService.setGraphValues(this.data)
+    }
+    else return;
+  }
+  else return;
   }
 
   ngOnDestroy() {
