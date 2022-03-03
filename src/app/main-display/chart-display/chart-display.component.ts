@@ -61,9 +61,7 @@ export class ChartDisplayComponent implements OnInit {
   getChart(searchList) {
     if (searchList){
     if (searchList.length > 0) {
-      console.log("searches > 0")
       this.data = searchList[searchList.length-1];
-      console.log(this.data)
       this.graph = this.searchService.setGraphValues(this.data)
     }
     else return;
