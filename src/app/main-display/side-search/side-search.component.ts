@@ -18,6 +18,7 @@ export class SideSearchComponent implements OnInit {
   private result = false;
   private tickerExists
   searches = [];
+  localStock = false;
   isSubmitted = false;
   isLoading = false;
   isInvalid = false;
@@ -31,7 +32,9 @@ export class SideSearchComponent implements OnInit {
   userSearch = '';
 
   searchList: Search[] = [];
+  savedList: Search[] = [];
   private searchesSub: Subscription;
+  private savedSub: Subscription;
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
@@ -39,10 +42,15 @@ export class SideSearchComponent implements OnInit {
     this.searchService.getStockList(); //save Stock List from API to session storage on init
     this.checkSession();
     this.searchList = this.searchService.getSearches();
+    this.savedList = this.searchService.getSaved();
     this.searchesSub = this.searchService.getSearchUpdateListener()
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
       });
+    this.savedSub = this.searchService.getSavedUpdateListener()
+    .subscribe((saved: Search[]) => {
+      this.savedList = saved;
+    });
   }
 
   async stockList(userInput) {
@@ -119,17 +127,27 @@ export class SideSearchComponent implements OnInit {
   }
 
   onSaveSearch() {
-    console.log("Saved!")
+    this.searchService.addSaved();
   }
 
   checkSession() {
     let emptySearch = [];
-    if (sessionStorage.searches) {
+    if (sessionStorage.stockList) {
+      this.localStock = true;
+    }
+    if (!sessionStorage.searches) {
+      sessionStorage.setItem('searches', JSON.stringify(emptySearch));
+    }
+    if (localStorage.saved) {
       return;
     }
     else {
-      sessionStorage.setItem('searches', JSON.stringify(emptySearch));
+      localStorage.setItem('saved', JSON.stringify(emptySearch));
     }
+  }
+
+  deleteSaved(ticker: string) {
+    this.searchService.deleteSaved(ticker)
   }
 
   deleteSearch(ticker: string) {

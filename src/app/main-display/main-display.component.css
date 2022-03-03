@@ -1,3 +1,8 @@
+mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
+  margin: auto;
+  stroke: #BB0A21 !important;
+}
+
 .main-display {
   background-color: #123353;
 }
@@ -49,9 +54,40 @@ h6 {
 
 .saveButton {
   color: #BB0A21;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 }
 
-mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
-  margin: auto;
-  stroke: #BB0A21 !important;
+.firstRow {
+  margin-bottom: 1rem;
+  height: 5%;
 }
+
+.sideRow {
+  height:48%;
+  overflow: auto;
+}
+
+  .sideRow::-webkit-scrollbar {
+    /* width */
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    /* Track */
+    box-shadow: inset 0 0 5px grey;
+    border-left: 3px #D3D4D9 solid;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    /* Handle */
+    background: #BB0A21;
+    border-left: 3px #D3D4D9 solid;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    /* Handle on hover */
+    background: #970a1d;
+  }

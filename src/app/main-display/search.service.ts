@@ -10,6 +10,7 @@ import { Graph } from "./chart-display/graph";
 export class SearchService {
   private searches: Search[] = [];
   private searchUpdated = new Subject<Search[]>();
+  private savedUpdated = new Subject<Search[]>();
   private graph = Graph;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -41,6 +42,12 @@ export class SearchService {
     return this.searches
   }
 
+  getSaved() {
+    var searchList: Search[] = [];
+    searchList = JSON.parse(localStorage.getItem('saved'));
+    return searchList
+  }
+
   addSearch(ticker, apiData, userSearch, isSubmitted) {
     const search: Search = {
       id: isSubmitted, //change this at some point to an auto-generated ID
@@ -67,6 +74,23 @@ export class SearchService {
     this.getSearchUpdateListener();
   }
 
+  addSaved() {
+    let savedList = [];
+    let searchList = this.getSearches();
+    savedList.push(...searchList)
+    this.savedUpdated.next([...savedList]);
+    localStorage.setItem('saved', JSON.stringify(savedList));
+    this.getSavedUpdateListener();
+  }
+
+  deleteSaved(tickerId) {
+    let saved = this.getSaved()
+    saved = saved.filter(item => item.ticker !== tickerId);
+    this.savedUpdated.next([...saved]);
+    localStorage.setItem('saved', JSON.stringify(saved))
+    this.getSavedUpdateListener();
+  }
+
   graphSearch(apiData) {
     let searches = this.getSearches()
     for(var i = 0; i < searches.length; i++) {
@@ -79,6 +103,10 @@ export class SearchService {
 
   getSearchUpdateListener() {
     return this.searchUpdated.asObservable();
+  }
+
+  getSavedUpdateListener() {
+    return this.savedUpdated.asObservable();
   }
 
   setGraphValues(apiData) {

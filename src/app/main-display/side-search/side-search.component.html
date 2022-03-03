@@ -6,59 +6,88 @@
     data handling and presentation
 -->
 
-<form (submit)="onAddSearch(postForm)" #postForm="ngForm" class="d-flex" style="margin-top: 15px">
-  <input
-  matInput
-  required
-  ngModel
-  type="text"
-  class="form-control me-2"
-  placeholder="Search"
-  name="search"
-  minlength="1"
-  maxlength="5"
-  #search="ngModel"
-  >
-  <button
-  ngDefaultControl
-  ngModel
-  type="submit"
-  class="btn btn-outline-success"
-  name="button"
-  #button="ngModel"
-  >
-  Search</button>
-</form>
-<mat-error *ngIf="(search.invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
+<div class="firstRow">
+  <form (submit)="onAddSearch(postForm)" #postForm="ngForm" class="d-flex" style="margin-top: 15px">
+    <input
+    matInput
+    required
+    ngModel
+    type="text"
+    class="form-control me-2"
+    placeholder="Search"
+    name="search"
+    minlength="1"
+    maxlength="5"
+    #search="ngModel"
+    >
+    <button
+    ngDefaultControl
+    ngModel
+    type="submit"
+    class="btn btn-outline-success"
+    name="button"
+    #button="ngModel"
+    >
+    Search</button>
+  </form>
+  <mat-error *ngIf="(search.invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
+</div>
 
-<div><br>
-  <h6>Recent Searches:</h6>
-  <mat-expansion-panel *ngFor="let search of searchList" style="margin: 3px auto">
-    <mat-expansion-panel-header class="hoverSearch">
-      {{ search.ticker }}
-    </mat-expansion-panel-header>
-    <div class="description">
-      <p>Company Name:
-        {{ search.description }}
-      </p>
-      <p>High:
-        {{ search.high }}
-      </p>
-      <p>Low:
-        {{ search.low }}
-      </p>
-    </div>
-    <div>
-      <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch(search.ticker)"></fa-icon>
-      <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(search.ticker)"></fa-icon>
-    </div>
-  </mat-expansion-panel>
-</div><br>
+<h6>Recent Searches:</h6>
+<div class="sideRow" style="height:38%">
+  <div>
+    <mat-expansion-panel *ngFor="let search of searchList" style="margin: 3px auto">
+      <mat-expansion-panel-header class="hoverSearch">
+        {{ search.ticker }}
+      </mat-expansion-panel-header>
+      <div class="description">
+        <p>Company Name:
+          {{ search.description }}
+        </p>
+        <p>High:
+          {{ search.high }}
+        </p>
+        <p>Low:
+          {{ search.low }}
+        </p>
+      </div>
+      <div>
+        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch(search.ticker)"></fa-icon>
+        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(search.ticker)"></fa-icon>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+  <h6 class="info-text mat-body-1" *ngIf="!searchList || (searchList.length == 0 && !isLoading)"><br>No recent searches to display!</h6>
 
-<mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+</div>
+<div class="info-text saveButton">
+  <button mat-stroked-button [disabled]="!searchList || (searchList.length == 0)" (click)="onSaveSearch()">Save Search</button>
+</div>
 
-<h6 class="info-text mat-body-1" *ngIf="!searchList || (searchList.length == 0 && !isLoading)">No recent searches to display!</h6>
-
-<div class="info-text saveButton" *ngIf="!searchList || (searchList.length > 0)">
-  <button mat-stroked-button (click)="onSaveSearch()">Save Search</button>
+<h6 style="margin-top: 15px;">Saved Searches:</h6>
+<div class="sideRow" style="padding-bottom: 90px;">
+  <div>
+    <mat-expansion-panel *ngFor="let x of savedList" style="margin: 3px auto">
+      <mat-expansion-panel-header class="hoverSearch">
+        {{ x.ticker }}
+      </mat-expansion-panel-header>
+      <div class="description">
+        <p>Company Name:
+          {{ x.description }}
+        </p>
+        <p>High:
+          {{ x.high }}
+        </p>
+        <p>Low:
+          {{ x.low }}
+        </p>
+      </div>
+      <div>
+        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSaved(x.ticker)"></fa-icon>
+        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(x.ticker)"></fa-icon>
+      </div>
+    </mat-expansion-panel>
+  </div>
+  <h6 class="info-text mat-body-1" *ngIf="!savedList || (savedList.length == 0)"><br>No saved searches to display!</h6>
 </div>
