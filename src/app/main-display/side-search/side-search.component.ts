@@ -118,6 +118,10 @@ export class SideSearchComponent implements OnInit {
     this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
   }
 
+  onSaveSearch() {
+    console.log("Saved!")
+  }
+
   checkSession() {
     let emptySearch = [];
     if (sessionStorage.searches) {

@@ -2,34 +2,34 @@
 <!-- Utilized in the Main Display Component -->
 
 <!-- This component will be very important to the
-      overall scope of the project, with respect to
-      data handling and presentation
-  -->
+    overall scope of the project, with respect to
+    data handling and presentation
+-->
 
 <form (submit)="onAddSearch(postForm)" #postForm="ngForm" class="d-flex" style="margin-top: 15px">
-    <input
-    matInput
-    required
-    ngModel
-    type="text"
-    class="form-control me-2"
-    placeholder="Search"
-    name="search"
-    minlength="1"
-    maxlength="5"
-    #search="ngModel"
-    >
-    <button
-    ngDefaultControl
-    ngModel
-    type="submit"
-    class="btn btn-outline-success"
-    name="button"
-    #button="ngModel"
-    >
-    Search</button>
-  </form>
-  <mat-error *ngIf="(search.invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
+  <input
+  matInput
+  required
+  ngModel
+  type="text"
+  class="form-control me-2"
+  placeholder="Search"
+  name="search"
+  minlength="1"
+  maxlength="5"
+  #search="ngModel"
+  >
+  <button
+  ngDefaultControl
+  ngModel
+  type="submit"
+  class="btn btn-outline-success"
+  name="button"
+  #button="ngModel"
+  >
+  Search</button>
+</form>
+<mat-error *ngIf="(search.invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
 
 <div><br>
   <h6>Recent Searches:</h6>
@@ -49,11 +49,16 @@
       </p>
     </div>
     <div>
-        <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch(search.ticker)"></fa-icon>
-        <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(search.ticker)"></fa-icon>
+      <fa-icon [icon]="faRemove" size="2x" class="iconStyle" style="float: left;" (click)="deleteSearch(search.ticker)"></fa-icon>
+      <fa-icon [icon]="faGraph" size="2x" class="iconStyle" style="float: right;" (click)="graphSearch(search.ticker)"></fa-icon>
     </div>
-
-    </mat-expansion-panel>
+  </mat-expansion-panel>
 </div><br>
+
 <mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+
 <h6 class="info-text mat-body-1" *ngIf="!searchList || (searchList.length == 0 && !isLoading)">No recent searches to display!</h6>
+
+<div class="info-text saveButton" *ngIf="!searchList || (searchList.length > 0)">
+  <button mat-stroked-button (click)="onSaveSearch()">Save Search</button>
+</div>

@@ -47,6 +47,10 @@ h6 {
   cursor: pointer;
 }
 
+.saveButton {
+  color: #BB0A21;
+}
+
 mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   margin: auto;
   stroke: #BB0A21 !important;
