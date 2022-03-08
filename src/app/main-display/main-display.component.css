@@ -20,6 +20,11 @@ mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   text-align: center;
 }
 
+h3 {
+  color: white;
+  text-align: center;
+}
+
 h6 {
   text-align: center;
 }
