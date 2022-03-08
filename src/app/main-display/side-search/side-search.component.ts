@@ -158,6 +158,10 @@ export class SideSearchComponent implements OnInit {
     this.searchService.graphSearch(tickerId)
   }
 
+  graphSaved(tickerID) {
+    this.searchService.graphSaved(tickerID)
+  }
+
   ngOnDestroy() {
     // this.searches = []
     this.searchesSub.unsubscribe();
