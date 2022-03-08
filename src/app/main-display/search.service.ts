@@ -101,6 +101,16 @@ export class SearchService {
     this.setGraphValues(doody)
   }
 
+  graphSaved(apiData) {
+    let saved = this.getSaved()
+    for(var i = 0; i < saved.length; i++) {
+      if(saved[i].ticker == apiData) {
+        var doody = saved[i]
+     }
+   }
+    this.setGraphValues(doody)
+  }
+
   getSearchUpdateListener() {
     return this.searchUpdated.asObservable();
   }
