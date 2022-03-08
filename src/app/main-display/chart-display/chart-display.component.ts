@@ -12,18 +12,27 @@ import { SearchService } from '../search.service';
 })
 export class ChartDisplayComponent implements OnInit {
   searchList = [];
+  savedList = [];
   data = [];
   dataPresent = false;
 
   public graph;
+  public status;
   private searchesSub: Subscription;
+  private savedSub: Subscription;
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
     console.log("OnInit - data present?\n", this.dataPresent)
     this.searchList = this.searchService.getSearches()
-    this.getChart(this.searchList)
+    this.savedList = this.searchService.getSaved()
+    if (this.searchList.length > 0) {
+      this.getChart(this.searchList)
+    }
+    else if (this.savedList.length > 0) {
+      this.getChart(this.savedList)
+    }
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
@@ -36,6 +45,11 @@ export class ChartDisplayComponent implements OnInit {
           console.log("is not submitted")
         }
       });
+    this.savedSub = this.searchService.getSavedUpdateListener() //actively listening for new searches
+    .subscribe((saved: Search[]) => {
+      this.savedList = saved;
+      this.getChart(this.savedList)
+    });
   }
 
   toggleData(isSubmitted, searchData) {
@@ -58,15 +72,15 @@ export class ChartDisplayComponent implements OnInit {
     console.log("==========")
   }
 
-  getChart(searchList) {
-    if (searchList){
-    if (searchList.length > 0) {
-      this.data = searchList[searchList.length-1];
-      this.graph = this.searchService.setGraphValues(this.data)
+  getChart(list) {
+    if (list) {
+      if (list.length > 0) {
+        this.data = list[list.length-1];
+        this.graph = this.searchService.setGraphValues(this.data)
+      }
+      else return;
     }
     else return;
-  }
-  else return;
   }
 
   ngOnDestroy() {

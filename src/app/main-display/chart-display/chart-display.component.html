@@ -1,35 +1,20 @@
-<h1 style="color: white; text-align: center; margin-top: 50px">
-  Chart display works!
-</h1><br>
+<div style="margin-top:30px"></div>
 
-
-<div *ngIf="searchList && (searchList.length > 0); else noCharts" >
-  <div *ngFor="let search of (searchList | slice: searchList.length - 1)" style="text-align:center; color: white; margin: 3px auto">
-    <!-- <p>Ticker:
-      {{ searches[searches.length-1].ticker }}
-    </p>
-    <p>Company Name:
-      {{ searches[searches.length-1].description }}
-    </p>
-    <p>
-      Most Recent High:
-      {{ searches[searches.length-1].data.highs[searches[searches.length-1].data.highs.length-1] }}
-    </p>
-    <p>
-      Most Recent Low:
-      {{ searches[searches.length-1].data.lows[searches[searches.length-1].data.lows.length-1] }}
-    </p>
-    <p>Date of Most Recent Data Pull:
-      {{ searches[searches.length-1].data.dates[0] }}
-    </p>
-    <p>
-      isSubmitted state:
-      {{ searches[searches.length-1].id }}
-    </p> -->
-  </div><br>
+<div *ngIf="searchList && (searchList.length > 0); else saved" >
+  <h3>Recent Searches</h3>
+  <br>
   <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
 </div>
 
+<ng-template #saved>
+  <div *ngIf="(savedList && (savedList.length > 0)); else noCharts" >
+    <h3>Saved Searches from {{ savedList[0].data.dates[savedList[0].data.dates.length-1] }}</h3>
+    <br>
+    <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+  </div>
+</ng-template>
+
 <ng-template #noCharts>
-  <h3 style="color:white; text-align: center;">No recent charts to display!</h3>
+  <h3 style="margin-top:25%">No recent charts to display!</h3>
+  <h6 style="color: white;"> Search for a Ticker to continue</h6>
 </ng-template>
