@@ -20,6 +20,54 @@ mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   text-align: center;
 }
 
+.tab-text {
+  color: white;
+  text-align: center;
+}
+
+/* SAVED FOR LATER
+add [@.disabled]="true" to mat-tab-group in chart-display.html
+for fade animation.
+For regular Angular swiping animation, remove the above
+& comment through @keyframes code below */
+
+.mat-tab-body.mat-tab-body-active {
+  animation: fade 0.5s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.mat-tab-body-wrapper .mat-tab-body-content {
+  overflow-x: hidden;
+  height: 80vh;
+}
+
+.mat-tab-label, .mat-tab-label-active {
+  color: white !important;
+  font-size: 14px;
+}
+
+.mat-tab-header-pagination-chevron {
+  border-color: #D3D4D9 !important
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background: #BB0A21;
+  height: 3px;
+}
+
+.mat-tab-header.mat-tab-header {
+  border-color: #BB0A21;
+}
+
 h3 {
   color: white;
   text-align: center;
