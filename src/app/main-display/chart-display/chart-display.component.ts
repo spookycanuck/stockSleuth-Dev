@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -8,7 +8,8 @@ import { SearchService } from '../search.service';
 @Component({
   selector: 'app-chart-display',
   templateUrl: './chart-display.component.html',
-  styleUrls: []
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChartDisplayComponent implements OnInit {
   searchList = [];
@@ -37,6 +38,8 @@ export class ChartDisplayComponent implements OnInit {
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
         this.getChart(this.searchList)
+        // can remove this if/else statement below. All it really
+        //  does is log shit to the console via a function. Lul
         if ((this.searchList.length > 0) && (this.searchList[0].id == true)) {
           this.toggleData(this.dataPresent, searches);
           this.dataPresent = this.searchList[0].id;
