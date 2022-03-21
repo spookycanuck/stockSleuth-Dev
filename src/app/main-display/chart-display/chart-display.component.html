@@ -32,9 +32,33 @@
 
 <ng-template #saved>
   <div *ngIf="(savedList && (savedList.length > 0)); else noCharts" >
-    <h3>Saved Searches from {{ savedList[0].data.dates[savedList[0].data.dates.length-1] }}</h3>
-    <br>
-    <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+    <mat-tab-group mat-align-tabs="end" [@.disabled]="true">
+      <mat-tab label="Prices">
+        <br>
+        <h3>Saved Searches from {{ savedList[0].data.dates[savedList[0].data.dates.length-1] }}</h3>
+        <br>
+        <div class="row">
+          <div class="col-lg-2" style="padding-top:15%">
+            <h3>Chart functions go here</h3>
+          </div>
+          <div class="col-lg-10">
+            <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Overview">
+        <h3 style="padding-top:50px">Content 2</h3>
+      </mat-tab>
+      <mat-tab label="Sentiment">
+        <h3 style="padding-top:50px">Content 3</h3>
+      </mat-tab>
+      <mat-tab label="Articles">
+        <h3 style="padding-top:50px">Content 4</h3>
+      </mat-tab>
+      <mat-tab label="Holders">
+        <h3 style="padding-top:50px">Content 5</h3>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </ng-template>
 
