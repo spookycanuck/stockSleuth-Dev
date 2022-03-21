@@ -2,10 +2,6 @@ html, body, main {
   background-color: #123353;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .side-search {
   background-color: #d3d4d9;
 }
