@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subscription, startWith } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { faRemove } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,8 +28,13 @@ export class SideSearchComponent implements OnInit {
   faRemove = faRemove;
   faGraph = faChartLine;
 
+  //reactive form stuff
+  searchControl = new FormControl('', [Validators.required, Validators.maxLength(5)])
+  filteredOptions: Observable<string[]>
+  searchForm: FormGroup;
+
+
   // variable collection from API for Search feature
-  searchID = null; //not used right now - save for possible use in the future
   userSearch = '';
 
   searchList: Search[] = [];
@@ -36,11 +42,18 @@ export class SideSearchComponent implements OnInit {
   private searchesSub: Subscription;
   private savedSub: Subscription;
 
-  constructor(public searchService: SearchService, private router: ActivatedRoute) { }
+  constructor(private cd: ChangeDetectorRef, private fb: FormBuilder, public searchService: SearchService, private router: ActivatedRoute) { }
 
   ngOnInit() {
     this.searchService.getStockList(); //save Stock List from API to session storage on init
     this.checkSession();
+    this.searchForm = this.fb.group({
+      search: this.searchControl
+    });
+    this.filteredOptions = this.searchControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
     this.searchList = this.searchService.getSearches();
     this.savedList = this.searchService.getSaved();
     this.searchesSub = this.searchService.getSearchUpdateListener()
@@ -94,7 +107,7 @@ export class SideSearchComponent implements OnInit {
     return(this.result)
   }
 
-  async onAddSearch(form: NgForm) {
+  async onAddSearch(form: FormGroup) {
     this.isSubmitted = true;
     this.isInvalid = false;
     if (form.invalid) {
@@ -130,6 +143,14 @@ export class SideSearchComponent implements OnInit {
     this.searchService.addSaved();
   }
 
+  onClearSearch() {
+    this.searchService.clearSearches();
+  }
+
+  onClearSaved() {
+    this.searchService.clearSavedSearches();
+  }
+
   checkSession() {
     let emptySearch = [];
     if (sessionStorage.stockList) {
@@ -162,8 +183,13 @@ export class SideSearchComponent implements OnInit {
     this.searchService.graphSaved(tickerID)
   }
 
+  private _filter(value) {
+    const filterValue = value.toLowerCase();
+    let options = JSON.parse(sessionStorage.getItem('stockList'));
+    return options.filter(option => option.symbol.toLowerCase().includes(filterValue) || option.name.toLowerCase().includes(filterValue)).slice(0,25)
+  }
+
   ngOnDestroy() {
-    // this.searches = []
     this.searchesSub.unsubscribe();
   }
 
