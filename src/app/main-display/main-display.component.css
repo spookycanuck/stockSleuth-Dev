@@ -112,9 +112,23 @@ h6 {
   margin-bottom: 2rem;
 }
 
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background: white;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.submitButton {
+  margin-top: 15%;
+  height: 55px
+}
+
 .firstRow {
-  margin-bottom: 1rem;
-  height: 5%;
+  margin-bottom: 0.5rem;
 }
 
 .sideRow {
@@ -147,5 +161,32 @@ h6 {
   }
 
   .sideRow.savedRow {
-    height: 30%
+    height: 28%
+  }
+
+  .savedRowButton {
+    color: #BB0A21;
+    margin-top: 0.25rem;
+  }
+
+  .mat-stroked-button:hover:not([disabled]) {
+    background: #BB0A21;
+    color: white
+  }
+
+  .mat-option-text:hover {
+      overflow:visible;
+      animation-name:scroll;
+      animation-iteration-count: infinite;
+      animation-duration:5s;
+  }
+
+    @keyframes scroll  {
+      0% {
+        transform:translateX(0);
+      }
+
+      100% {
+        transform:translateX(-50%);
+      }
   }
