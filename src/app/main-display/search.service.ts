@@ -83,6 +83,20 @@ export class SearchService {
     this.getSavedUpdateListener();
   }
 
+  clearSearches() {
+    let searchList = [];
+    sessionStorage.setItem('searches', JSON.stringify(searchList));
+    this.searchUpdated.next([...searchList]);
+    this.getSearchUpdateListener();
+  }
+
+  clearSavedSearches() {
+    let savedList = [];
+    localStorage.setItem('saved', JSON.stringify(savedList));
+    this.savedUpdated.next([...savedList]);
+    this.getSavedUpdateListener();
+  }
+
   deleteSaved(tickerId) {
     let saved = this.getSaved()
     saved = saved.filter(item => item.ticker !== tickerId);
