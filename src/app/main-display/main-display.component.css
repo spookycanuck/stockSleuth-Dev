@@ -123,8 +123,10 @@ h6 {
 }
 
 .submitButton {
-  margin-top: 15%;
-  height: 55px
+  margin-top: 12%;
+  margin-right: 10px;
+  height: 55px;
+  width: 110px
 }
 
 .firstRow {
