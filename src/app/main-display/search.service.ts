@@ -53,8 +53,8 @@ export class SearchService {
       id: isSubmitted, //change this at some point to an auto-generated ID
       description: userSearch,
       ticker: ticker,
-      low: apiData.lows[apiData.lows.length-1].toFixed(2),
-      high: apiData.highs[apiData.highs.length-1].toFixed(2),
+      low: apiData.lows[0].toFixed(2),
+      high: apiData.highs[0].toFixed(2),
       data: apiData
     };
     let localSearch = [];
