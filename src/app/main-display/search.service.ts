@@ -98,6 +98,14 @@ export class SearchService {
     this.getSearchUpdateListener();
   }
 
+  clearSearches() {
+  // Clears searches from Recent Searches in sessionStorage, updates side-search list.
+    let searchList = [];
+    sessionStorage.setItem('searches', JSON.stringify(searchList));
+    this.searchUpdated.next([...searchList]);
+    this.getSearchUpdateListener();
+  }
+
   addSaved() {
   // Saves the current list of Recent Searches to Saved Searches, updates side-search list.
     let savedList = [];
@@ -115,14 +123,6 @@ export class SearchService {
     this.savedUpdated.next([...saved]);
     localStorage.setItem('saved', JSON.stringify(saved))
     this.getSavedUpdateListener();
-  }
-
-  clearSearches() {
-  // Clears searches from Recent Searches in sessionStorage, updates side-search list.
-    let searchList = [];
-    sessionStorage.setItem('searches', JSON.stringify(searchList));
-    this.searchUpdated.next([...searchList]);
-    this.getSearchUpdateListener();
   }
 
   clearSavedSearches() {
