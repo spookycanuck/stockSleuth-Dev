@@ -15,6 +15,8 @@ import { SearchService } from '../search.service';
   styleUrls: []
 })
 export class SideSearchComponent implements OnInit {
+
+  //variable collection
   private newSearch = '';
   private result = false;
   private tickerExists
@@ -23,6 +25,7 @@ export class SideSearchComponent implements OnInit {
   isSubmitted = false;
   isLoading = false;
   isInvalid = false;
+  recentSearchExists = false;
   priceData = null;
 
   faRemove = faRemove;
@@ -33,10 +36,8 @@ export class SideSearchComponent implements OnInit {
   filteredOptions: Observable<string[]>
   searchForm: FormGroup;
 
-
-  // variable collection from API for Search feature
+  // variable collection for API & Search features
   userSearch = '';
-
   searchList: Search[] = [];
   savedList: Search[] = [];
   private searchesSub: Subscription;
@@ -46,55 +47,54 @@ export class SideSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchService.getStockList(); //save Stock List from API to session storage on init
-    this.checkSession();
-    this.searchForm = this.fb.group({
+    this.checkSession(); //checks if stockList is in session, if not adds it
+    this.searchForm = this.fb.group({ //initialization of reactive FormGroup
       search: this.searchControl
     });
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
+    this.filteredOptions = this.searchControl.valueChanges.pipe( //Autocomplete observable
       startWith(''),
       map(value => this._filter(value))
     );
-    this.searchList = this.searchService.getSearches();
-    this.savedList = this.searchService.getSaved();
-    this.searchesSub = this.searchService.getSearchUpdateListener()
+    this.searchList = this.searchService.getSearches(); //set variable to list of searches
+    this.savedList = this.searchService.getSaved(); //set variable to list of saved searches
+    this.searchesSub = this.searchService.getSearchUpdateListener() //returns searches observable
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
       });
-    this.savedSub = this.searchService.getSavedUpdateListener()
+    this.savedSub = this.searchService.getSavedUpdateListener() //returns saved searches observable
     .subscribe((saved: Search[]) => {
       this.savedList = saved;
     });
   }
 
   async stockList(userInput) {
-    /*
-    This checks the user input against a list of tickers at the API endpoint.
-    If the input is in the list, it will return the ticker to onAddSearch()
-    and then use the ticker for searchAPI().
-
-    **TO DO: If it is not a valid ticker, log an error code to the DOM.**
-    */
-   try {
-    const stockListData = JSON.parse(sessionStorage.getItem('stockList'));
-    const stockObj = stockListData.find(stock => stock.symbol == userInput);
-    if (stockObj) {
-      this.tickerExists = true;
-      this.userSearch = stockObj.name
+  /*
+  This checks the user input against a list of tickers at the API endpoint.
+  If the input is in the list, it will return the ticker to onAddSearch()
+  and then use the ticker for searchAPI().
+  */
+    try {
+      const stockListData = JSON.parse(sessionStorage.getItem('stockList'));
+      const stockObj = stockListData.find(stock => stock.symbol == userInput);
+      if (stockObj) {
+        this.tickerExists = true;
+        this.userSearch = stockObj.name
+      }
+      else {
+        this.tickerExists = false;
+      }
+      return(this.tickerExists)
     }
-    else {
-      this.tickerExists = false;
+    catch(error) {
+      await this.searchService.getStockList();
     }
-    return(this.tickerExists)
-  } catch(error) {
-    await this.searchService.getStockList();
   }
-}
 
 
   searchExists(userInput) {
     /*
-    Checks if userInput is already in the list of "Recent Searches". Returns
-    bool to onAddSearch().
+    Checks if userInput is already in the list of "Recent Searches".
+    Returns bool to onAddSearch().
     */
     var x = this.searchList
     var target = x.find(temp => temp.ticker == userInput)
@@ -108,6 +108,13 @@ export class SideSearchComponent implements OnInit {
   }
 
   async onAddSearch(form: FormGroup) {
+    /*
+    Search function that reaches out to the API to find data for ticker
+    based on user input. Function will verify that the ticker exists
+    against the stockList variable in session storage and then posts
+    the data as an object to the Search model. Then appends the searches
+    array in local storage with info.
+    */
     this.isSubmitted = true;
     this.isInvalid = false;
     if (form.invalid) {
@@ -120,7 +127,7 @@ export class SideSearchComponent implements OnInit {
     this.searchExists(this.newSearch);
     if (this.result == true) {
       this.isLoading = false;
-      this.isInvalid = true; //TO DO: change this to a different error readout
+      this.recentSearchExists = true; //TO DO: change this to a different error readout if search exists!
       return;
     }
 
@@ -140,18 +147,26 @@ export class SideSearchComponent implements OnInit {
   }
 
   onSaveSearch() {
+  // Saves the list of Recent Searches to the Saved Searches variable
     this.searchService.addSaved();
   }
 
   onClearSearch() {
+  // Clears the list of Recent Searches
     this.searchService.clearSearches();
   }
 
   onClearSaved() {
+  // Clears the list of Saved Searches
     this.searchService.clearSavedSearches();
   }
 
   checkSession() {
+  /*
+  Checks session storage for the stockList[] and searches[] arrays.
+  If the arrays do not exist, checkSession() initializes either or
+  both as empty sets.
+  */
     let emptySearch = [];
     if (sessionStorage.stockList) {
       this.localStock = true;
@@ -167,29 +182,45 @@ export class SideSearchComponent implements OnInit {
     }
   }
 
-  deleteSaved(ticker: string) {
-    this.searchService.deleteSaved(ticker)
-  }
-
   deleteSearch(ticker: string) {
+  // Deletes a single item from Recent Searches
     this.searchService.deleteSearch(ticker)
   }
 
+  deleteSaved(ticker: string) {
+  // Deletes a single item from Saved Searches
+    this.searchService.deleteSaved(ticker)
+  }
+
   graphSearch(tickerId) {
+  // Graphs a single item from Recent Searches
     this.searchService.graphSearch(tickerId)
   }
 
   graphSaved(tickerID) {
+  // Graphs a single item from Saved Searches
     this.searchService.graphSaved(tickerID)
   }
 
   private _filter(value) {
+  /*
+  Private function added for auto complete on search. This function
+  tracks user keystrokes and matches the values to respective tickers
+  or company names in the stockList variable. Due to size and runtime
+  constraints, the resulting value is limited to the first 25 matches.
+  */
+    this.recentSearchExists = false;
+    this.isInvalid = false;
     const filterValue = value.toLowerCase();
     let options = JSON.parse(sessionStorage.getItem('stockList'));
     return (options || []).filter(option => option.symbol.toLowerCase().includes(filterValue) || option.name.toLowerCase().includes(filterValue)).slice(0,25)
   }
 
   ngOnDestroy() {
+  /*
+  Gonna be honest, idk why this is here or what it does...
+  but Maxajillion Schwartzenfeller told me to put it here.
+  */
     this.searchesSub.unsubscribe();
   }
 
