@@ -22,8 +22,18 @@
       <button class="btn btn-outline-success submitButton">Search</button>
     </mat-card-actions>
   </form>
-  <mat-error *ngIf="(searchForm.get('search').invalid && isSubmitted) || isInvalid">Please enter a valid ticker</mat-error>
+  <mat-error *ngIf="(searchForm.get('search').invalid && isSubmitted) || isInvalid; else tickerExists">Please enter a valid ticker</mat-error>
 </div>
+
+<ng-template #tickerExists>
+  <mat-error *ngIf="(recentSearchExists && isSubmitted); else noError">
+    Ticker already exists in Recent Searches
+  </mat-error>
+</ng-template>
+
+<ng-template #noError>
+  <p></p>
+</ng-template>
 
 <mat-autocomplete #auto="matAutocomplete">
   <mat-option *ngFor="let option of filteredOptions | async" [value]="option.symbol">
