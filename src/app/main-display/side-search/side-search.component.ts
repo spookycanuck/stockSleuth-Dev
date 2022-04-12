@@ -186,7 +186,7 @@ export class SideSearchComponent implements OnInit {
   private _filter(value) {
     const filterValue = value.toLowerCase();
     let options = JSON.parse(sessionStorage.getItem('stockList'));
-    return options.filter(option => option.symbol.toLowerCase().includes(filterValue) || option.name.toLowerCase().includes(filterValue)).slice(0,25)
+    return (options || []).filter(option => option.symbol.toLowerCase().includes(filterValue) || option.name.toLowerCase().includes(filterValue)).slice(0,25)
   }
 
   ngOnDestroy() {
