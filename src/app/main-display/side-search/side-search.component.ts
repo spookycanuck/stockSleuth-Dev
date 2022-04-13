@@ -121,19 +121,20 @@ export class SideSearchComponent implements OnInit {
       return;
     }
 
-    this.newSearch = form.value.search.toUpperCase(); //new variable name
+    var newSearch = form.value.search.toUpperCase(); //new variable name
     this.isLoading = true;
 
-    this.searchExists(this.newSearch);
+    this.searchExists(newSearch);
     if (this.result == true) {
       this.isLoading = false;
       this.recentSearchExists = true; //TO DO: change this to a different error readout if search exists!
       return;
     }
 
-    await this.stockList(this.newSearch); //checks if ticker is valid against stock list
+    await this.stockList(newSearch); //checks if ticker is valid against stock list
     if (this.tickerExists == true) {
-      this.priceData = await this.searchService.searchAPI(this.newSearch); //if valid ticker, search API for data
+      var priceData = await this.searchService.searchAPI(newSearch); //if valid ticker, search API for data
+      var overviewData = await this.searchService.getOverview(newSearch)
       this.isLoading = false;
     }
     else {
@@ -143,7 +144,7 @@ export class SideSearchComponent implements OnInit {
       return;
     }
 
-    this.searchService.addSearch(this.newSearch, this.priceData, this.userSearch, this.isSubmitted)
+    this.searchService.addSearch(newSearch, priceData, this.userSearch, this.isSubmitted, overviewData)
   }
 
   onSaveSearch() {
