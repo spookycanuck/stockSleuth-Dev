@@ -33,6 +33,10 @@ import { DisclaimerComponent } from './text-components/disclaimer/disclaimer.com
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ChartDisplayComponent } from './main-display/chart-display/chart-display.component';
+import { OverviewTabComponent } from './main-display/chart-display/overview-tab/overview-tab.component';
+import { SentimentTabComponent } from './main-display/chart-display/sentiment-tab/sentiment-tab.component';
+import { ArticlesTabComponent } from './main-display/chart-display/articles-tab/articles-tab.component';
+import { HoldersTabComponent } from './main-display/chart-display/holders-tab/holders-tab.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -52,6 +56,10 @@ PlotlyModule.plotlyjs = PlotlyJS;
     LoginComponent,
     SignupComponent,
     ChartDisplayComponent,
+    OverviewTabComponent,
+    SentimentTabComponent,
+    ArticlesTabComponent,
+    HoldersTabComponent,
     ],
   imports: [
     BrowserModule,
