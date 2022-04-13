@@ -43,6 +43,19 @@ export class SearchService {
     return priceData
   }
 
+  async getOverview(userInput) {
+    /*
+    This searches the user input against a list of endpoints in the API
+    and then returns the data for that ticker to XXXXX.
+    */
+    var overviewData;
+    const pythonURL = `http://localhost:5000/getOverview?symbol=${userInput}`
+    const response = await fetch(pythonURL);
+    const responseData = await response.json();
+    overviewData = responseData;
+    return overviewData
+  }
+
   getSearches() {
   // Returns current list from sessionStorage to variable
     this.searches = JSON.parse(sessionStorage.getItem('searches'));
@@ -66,7 +79,7 @@ export class SearchService {
     return this.savedUpdated.asObservable();
   }
 
-  addSearch(ticker, apiData, userSearch, isSubmitted) {
+  addSearch(ticker, apiData, userSearch, isSubmitted, overviewData) {
   /*
   Takes inputs from the onAddSearch() function in side-search.component.ts file.
   Posts inputs to the search model, then pushes them to the observable in the
@@ -78,7 +91,8 @@ export class SearchService {
       ticker: ticker,
       low: apiData.lows[0].toFixed(2),
       high: apiData.highs[0].toFixed(2),
-      data: apiData
+      data: apiData,
+      overview: overviewData
     };
     let localSearch = [];
     if (sessionStorage.searches) {

@@ -1,4 +1,5 @@
 import { PriceData } from "./priceData.model";
+import { OverviewData } from "./overviewData.model";
 
 export interface Search {
   id: number;
@@ -7,4 +8,5 @@ export interface Search {
   low: number;
   high: number;
   data: PriceData;
+  overview: OverviewData;
 }
