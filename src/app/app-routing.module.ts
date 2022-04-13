@@ -13,15 +13,13 @@ import { SignupComponent } from "./auth/signup/signup.component";
 
 const routes: Routes = [
   { path: '', component: MainDisplayComponent },
-  // { path: 'login', component: LoginComponent },
-  // { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'about', component: AboutComponent },
   { path: 'disclaimer', component: DisclaimerComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'profile', component: ProfileComponent},
-  { path: 'signup', component: SignupComponent },
   { path: 'terms', component: TosComponent }
 ];
 
