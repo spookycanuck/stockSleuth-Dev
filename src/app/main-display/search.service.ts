@@ -111,16 +111,15 @@ export class SearchService {
   }
 
   setCurrentSearch(x) {
-    /*
-    Creates object "currentSearch" in session when a user adds a search
-    or clicks the graph button.
-    */
-      var newCurrent = x
-      sessionStorage.setItem('currentSearch', JSON.stringify(x));
-      // console.log(newCurrent)
-      this.currentUpdated.next(newCurrent)
-      this.getCurrentUpdateListener();
-    }
+  /*
+  Creates object "currentSearch" in session when a user adds a search
+  or clicks the graph button.
+  */
+    let newCurrent = x
+    this.currentUpdated.next(newCurrent)
+    sessionStorage.setItem('currentSearch', JSON.stringify(x));
+    this.getCurrentUpdateListener();
+  }
 
   deleteSearch(tickerId) {
   // Deletes a search from Recent Searches in sessionStorage, updates side-search list.
@@ -135,6 +134,7 @@ export class SearchService {
   // Clears searches from Recent Searches in sessionStorage, updates side-search list.
     let searchList = [];
     sessionStorage.setItem('searches', JSON.stringify(searchList));
+    sessionStorage.setItem('currentSearch', JSON.stringify(searchList));
     this.searchUpdated.next([...searchList]);
     this.getSearchUpdateListener();
   }
@@ -162,6 +162,7 @@ export class SearchService {
   // Clears searches from Saved Searches in sessionStorage, updates side-search list.
     let savedList = [];
     localStorage.setItem('saved', JSON.stringify(savedList));
+    sessionStorage.setItem('currentSearch', JSON.stringify(savedList));
     this.savedUpdated.next([...savedList]);
     this.getSavedUpdateListener();
   }
