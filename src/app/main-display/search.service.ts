@@ -110,6 +110,18 @@ export class SearchService {
     this.setCurrentSearch(search);
   }
 
+  setCurrentSearch(x) {
+    /*
+    Creates object "currentSearch" in session when a user adds a search
+    or clicks the graph button.
+    */
+      var newCurrent = x
+      sessionStorage.setItem('currentSearch', JSON.stringify(x));
+      // console.log(newCurrent)
+      this.currentUpdated.next(newCurrent)
+      this.getCurrentUpdateListener();
+    }
+
   deleteSearch(tickerId) {
   // Deletes a search from Recent Searches in sessionStorage, updates side-search list.
     let searches = this.getSearches()
@@ -176,18 +188,6 @@ export class SearchService {
     }
     this.setGraphValues(doody)
     this.setCurrentSearch(doody)
-  }
-
-  setCurrentSearch(x) {
-  /*
-  Creates object "currentSearch" in session when a user adds a search
-  or clicks the graph button.
-  */
-    var newCurrent = x
-    sessionStorage.setItem('currentSearch', JSON.stringify(x));
-    // console.log(newCurrent)
-    this.currentUpdated.next(newCurrent)
-    this.getCurrentUpdateListener();
   }
 
   setGraphValues(apiData) {
