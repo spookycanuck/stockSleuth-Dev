@@ -13,6 +13,7 @@ export class SearchService {
   private searches: Search[] = [];
   private searchUpdated = new Subject<Search[]>();
   private savedUpdated = new Subject<Search[]>();
+  private currentUpdated = new Subject<Search[]>();
   private graph = Graph;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -79,6 +80,11 @@ export class SearchService {
     return this.savedUpdated.asObservable();
   }
 
+  getCurrentUpdateListener() {
+    // Returns updated Observable
+      return this.currentUpdated.asObservable();
+    }
+
   addSearch(ticker, apiData, userSearch, isSubmitted, overviewData) {
   /*
   Takes inputs from the onAddSearch() function in side-search.component.ts file.
@@ -101,6 +107,7 @@ export class SearchService {
     localSearch.push(search)
     this.searchUpdated.next([...localSearch]);
     sessionStorage.setItem('searches', JSON.stringify(localSearch));
+    this.setCurrentSearch(search);
   }
 
   deleteSearch(tickerId) {
@@ -156,17 +163,31 @@ export class SearchService {
      }
    }
     this.setGraphValues(doody)
+    this.setCurrentSearch(doody)
   }
 
   graphSaved(apiData) {
-  // Builds apiData input for setGraphValues() function
+    // Builds apiData input for setGraphValues() function
     let saved = this.getSaved()
     for(var i = 0; i < saved.length; i++) {
       if(saved[i].ticker == apiData) {
         var doody = saved[i]
      }
-   }
+    }
     this.setGraphValues(doody)
+    this.setCurrentSearch(doody)
+  }
+
+  setCurrentSearch(x) {
+  /*
+  Creates object "currentSearch" in session when a user adds a search
+  or clicks the graph button.
+  */
+    var newCurrent = x
+    sessionStorage.setItem('currentSearch', JSON.stringify(x));
+    // console.log(newCurrent)
+    this.currentUpdated.next(newCurrent)
+    this.getCurrentUpdateListener();
   }
 
   setGraphValues(apiData) {
