@@ -1,1 +1,10 @@
 <h3>sentiment-tab works!</h3>
+<h3 *ngIf="searchList.length > 0; else checkSaved">Current Search:<br>{{ searchList[0].description }}</h3>
+
+<ng-template #checkSaved>
+  <h3 *ngIf="savedList.length > 0; else noSearch">Current Search:<br>{{ savedList[0].description }}</h3>
+</ng-template>
+
+<ng-template #noSearch>
+  <h3>No recent searches to display!</h3>
+</ng-template>
