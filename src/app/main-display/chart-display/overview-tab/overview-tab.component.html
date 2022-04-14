@@ -1,8 +1,17 @@
 <h3>overview-tab for works!</h3>
-<h3 *ngIf="searchList.length > 0; else checkSaved">Current Search:<br>{{ searchList[searchList.length-1].description }}</h3>
+<h3 *ngIf="searchList && searchList.length > 0; else checkSaved">
+  Current Search:
+  <br>
+  {{ overviewData[0].value }}
+  </h3>
 
 <ng-template #checkSaved>
-  <h3 *ngIf="savedList.length > 0; else noSearch">Current Search:<br>{{ savedList[savedList.length-1].description }}</h3>
+  <h3 *ngIf="savedList.length > 0; else noSearch">
+    Current Search:
+    <br>
+    <p></p>
+    {{ overviewData[0].value }}
+    </h3>
 </ng-template>
 
 <ng-template #noSearch>
