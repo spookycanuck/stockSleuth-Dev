@@ -15,7 +15,6 @@ export class OverviewTabComponent implements OnInit {
   currentData = []
   overviewData = []
 
-
   private searchesSub: Subscription;
   private savedSub: Subscription;
   private currentSub: Subscription;
@@ -25,34 +24,41 @@ export class OverviewTabComponent implements OnInit {
   ngOnInit() {
     this.searchList = this.searchService.getSearches()
     this.savedList = this.searchService.getSaved()
+    this.checkCurrent();
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
     .subscribe((searches: Search[]) => {
       this.searchList = searches;
-      this.getCurrentData(this.searchList)
+      if (this.searchList.length > 0) {
+        this.getCurrentData(this.searchList)
+      }
     });
     this.savedSub = this.searchService.getSavedUpdateListener() //actively listening for new searches
     .subscribe((saved: Search[]) => {
       this.savedList = saved;
+      if (this.savedList.length > 0) {
       this.getCurrentData(this.savedList)
+      }
     });
     this.currentSub = this.searchService.getCurrentUpdateListener() //actively listening for new searches
     .subscribe((data: Search[]) => {
       this.currentData = data;
       this.getCurrentData(this.currentData)
     });
-    this.testList() // throws an error when commented out
   }
 
-  testList() {
-    var doody = JSON.parse(sessionStorage.getItem('currentSearch'))
-    this.overviewData = doody.overview.profile
-    // console.log(this.overviewData[0].value)
+  checkCurrent() {
+    var x = JSON.parse(sessionStorage.getItem('currentSearch'))
+    if (x.overview) {
+      this.overviewData = x.overview.profile
+    }
+    else if (this.savedList) {
+      var y = this.savedList[this.savedList.length-1]
+      this.overviewData = y.overview.profile
+    }
   }
 
   getCurrentData(data) {
-    console.log(this.currentData)
     if (data.length > 0) {
-      // console.log(data[data.length-1])
       var x = data[data.length-1];
       this.overviewData = x.overview.profile
     }

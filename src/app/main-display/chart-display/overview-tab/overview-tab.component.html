@@ -1,5 +1,5 @@
 <h3>overview-tab works!</h3>
-<h3 *ngIf="searchList && searchList.length > 0; else checkSaved">
+<h3 *ngIf="searchList.length > 0; else checkSaved">
   Current Search:
   <br>
   {{ overviewData[0].value }}
