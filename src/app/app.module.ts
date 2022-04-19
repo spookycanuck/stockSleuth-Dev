@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -79,7 +80,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     HttpClientModule,
     MatPaginatorModule,
     CommonModule,
-    PlotlyModule
+    PlotlyModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
