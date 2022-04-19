@@ -3,3 +3,11 @@ h3 {
   text-align: center;
   padding-top: 50px;
 }
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+  background-color: #D3D4D9;
+}

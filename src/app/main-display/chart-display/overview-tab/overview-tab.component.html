@@ -1,19 +1,16 @@
-<h3>overview-tab works!</h3>
-<h3 *ngIf="searchList.length > 0; else checkSaved">
-  Current Search:
-  <br>
-  {{ overviewData[0].value }}
-  </h3>
+<h3>Company Overview for {{ overviewData[0].value }}</h3>
 
-<ng-template #checkSaved>
-  <h3 *ngIf="savedList.length > 0; else noSearch">
-    Current Search:
-    <br>
-    <p></p>
-    {{ overviewData[0].value }}
-    </h3>
-</ng-template>
-
-<ng-template #noSearch>
-  <h3>No recent searches to display!</h3>
-</ng-template>
+<table class="table table-bordered" style="margin-top: 25px; width:80%; margin-left:10%">
+  <tr style="text-align:center; height:75px;">
+    <th style="border: 1px solid;">Info</th>
+    <th style="border: 1px solid;">Company Data</th>
+  </tr>
+  <tr *ngFor="let item of overviewData">
+    <td style="width:20%; text-align:center;border: 1px solid; font-weight: bold;">
+      {{ item.label }}
+    </td>
+    <td style="padding: 15px; border: 1px solid;">
+      {{ item.value ? item.value:'N/A' }}
+    </td>
+  </tr>
+</table>
