@@ -8,7 +8,7 @@
 
 <div class="firstRow">
   <form [formGroup]="searchForm" (ngSubmit)="onAddSearch(searchForm)" class="d-flex">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" style="width:70%">
       <mat-label>Ticker Symbol</mat-label>
       <input
       matInput
@@ -18,7 +18,7 @@
       [matAutocomplete]="auto"
       />
     </mat-form-field>
-    <mat-card-actions>
+    <mat-card-actions style="width:25%">
       <button class="btn btn-outline-success submitButton">Search</button>
     </mat-card-actions>
   </form>
