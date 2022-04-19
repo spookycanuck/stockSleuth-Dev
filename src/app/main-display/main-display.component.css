@@ -115,7 +115,7 @@ h6 {
 .mat-form-field-appearance-outline .mat-form-field-outline {
   background: white;
   border-radius: 5px;
-  width: 200px;
+  margin-right:5px
 }
 
 .mat-form-field-wrapper {
@@ -126,7 +126,7 @@ h6 {
   margin-top: 12%;
   margin-right: 10px;
   height: 55px;
-  width: 110px
+  width: 100px
 }
 
 .firstRow {
@@ -138,57 +138,80 @@ h6 {
   overflow: auto;
 }
 
-  .sideRow::-webkit-scrollbar {
+.sideRow::-webkit-scrollbar {
     /* width */
     width: 10px;
   }
 
-  ::-webkit-scrollbar-track {
+  .sideRow::-webkit-scrollbar-track {
     /* Track */
     box-shadow: inset 0 0 5px grey;
     border-left: 3px #D3D4D9 solid;
     border-radius: 10px;
   }
 
-  ::-webkit-scrollbar-thumb {
+  .sideRow::-webkit-scrollbar-thumb {
     /* Handle */
     background: #BB0A21;
     border-left: 3px #D3D4D9 solid;
     border-radius: 10px;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
+  .sideRow::-webkit-scrollbar-thumb:hover {
     /* Handle on hover */
     background: #970a1d;
   }
 
-  .sideRow.savedRow {
-    height: 28%
+.sideRow.savedRow {
+  height: 28%
+}
+
+.savedRowButton {
+  color: #BB0A21;
+  margin-top: 0.25rem;
+}
+
+.mat-stroked-button:hover:not([disabled]) {
+  background: #BB0A21;
+  color: white
+}
+
+.mat-option-text:hover {
+    overflow:visible;
+    animation-name:scroll;
+    animation-iteration-count: infinite;
+    animation-duration:5s;
+}
+
+  @keyframes scroll  {
+    0% {
+      transform:translateX(0);
+    }
+
+    100% {
+      transform:translateX(-50%);
+    }
+}
+
+.mat-tab-body-content::-webkit-scrollbar {
+  /* width */
+  width: 12px;
   }
 
-  .savedRowButton {
-    color: #BB0A21;
-    margin-top: 0.25rem;
+  .mat-tab-body-content::-webkit-scrollbar-track {
+    /* Track */
+    margin-top: 5px;
+    box-shadow: inset 0 0 8px grey;
+    border-radius: 10px;
   }
 
-  .mat-stroked-button:hover:not([disabled]) {
+  .mat-tab-body-content::-webkit-scrollbar-thumb {
+    /* Handle */
     background: #BB0A21;
-    color: white
+    border-radius: 10px;
   }
 
-  .mat-option-text:hover {
-      overflow:visible;
-      animation-name:scroll;
-      animation-iteration-count: infinite;
-      animation-duration:5s;
-  }
-
-    @keyframes scroll  {
-      0% {
-        transform:translateX(0);
-      }
-
-      100% {
-        transform:translateX(-50%);
-      }
+  .mat-tab-body-content::-webkit-scrollbar-thumb:hover {
+    /* Handle on hover */
+    background: #970a1d;
   }
