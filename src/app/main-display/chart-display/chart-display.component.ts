@@ -37,16 +37,16 @@ export class ChartDisplayComponent implements OnInit {
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
-        this.getChart(this.searchList)
+        this.checkGraph();
         // can remove this if/else statement below. All it really
         //  does is log shit to the console via a function. Lul
-        if ((this.searchList.length > 0) && (this.searchList[0].id == true)) {
-          this.toggleData(this.dataPresent, searches);
-          this.dataPresent = this.searchList[0].id;
-        }
-        else {
-          console.log("is not submitted")
-        }
+        // if ((this.searchList.length > 0) && (this.searchList[0].id == true)) {
+        //   this.toggleData(this.dataPresent, searches);
+        //   this.dataPresent = this.searchList[0].id;
+        // }
+        // else {
+        //   console.log("is not submitted")
+        // }
       });
     this.savedSub = this.searchService.getSavedUpdateListener() //actively listening for new searches
     .subscribe((saved: Search[]) => {
@@ -73,6 +73,15 @@ export class ChartDisplayComponent implements OnInit {
     console.log("Latest Search Data: ")
     console.log(searchData[searchData.length-1]);
     console.log("==========")
+  }
+
+  checkGraph() {
+    if (this.searchList.length > 0) {
+      this.getChart(this.searchList)
+    }
+    else {
+      this.getChart(this.savedList)
+    }
   }
 
   getChart(list) {
