@@ -47,6 +47,13 @@ export class OverviewTabComponent implements OnInit {
   }
 
   checkCurrent() {
+    /*
+    Runs checkSession(), then determines whether there is a value in the
+    currentSearch[] list in session. If there is not, it will check local for
+    the saved[] list. If there is an item there, it will populate overview data
+    with that information.
+    */
+    this.checkSession()
     var x = JSON.parse(sessionStorage.getItem('currentSearch'))
     if (x.overview) {
       this.overviewData = x.overview.profile
@@ -56,6 +63,23 @@ export class OverviewTabComponent implements OnInit {
       this.overviewData = y.overview.profile
     }
   }
+
+  checkSession() {
+    /*
+    Checks session storage for the currentSearch[]array. If the array does
+    not exist, checkSession() initializes as an empty set. This avoids
+    errors OnInit.
+    */
+      let emptySearch = [];
+      if (sessionStorage.currentSearch) {
+        console.log("current search exists")
+        return
+      }
+      if (!sessionStorage.currentSearch) {
+        console.log("no current search")
+        sessionStorage.setItem('currentSearch', JSON.stringify(emptySearch))
+      }
+    }
 
   getCurrentData(data) {
     if (data.length > 0) {
