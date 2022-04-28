@@ -9,4 +9,5 @@ export interface Search {
   high: number;
   data: PriceData;
   overview: OverviewData;
+  rating: Array<string>;
 }
