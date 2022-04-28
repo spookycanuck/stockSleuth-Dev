@@ -135,6 +135,7 @@ export class SideSearchComponent implements OnInit {
     if (this.tickerExists == true) {
       var priceData = await this.searchService.searchAPI(newSearch); //if valid ticker, search API for data
       var overviewData = await this.searchService.getOverview(newSearch)
+      var cmpyRating = await this.searchService.getRatings(newSearch)
       this.isLoading = false;
     }
     else {
@@ -144,7 +145,7 @@ export class SideSearchComponent implements OnInit {
       return;
     }
 
-    this.searchService.addSearch(newSearch, priceData, this.userSearch, this.isSubmitted, overviewData)
+    this.searchService.addSearch(newSearch, priceData, this.userSearch, this.isSubmitted, overviewData, cmpyRating)
   }
 
   onSaveSearch() {
