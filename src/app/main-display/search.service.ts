@@ -57,6 +57,19 @@ export class SearchService {
     return overviewData
   }
 
+  async getRatings(userInput) {
+    /*
+    This searches the user input against a list of endpoints in the API
+    and then returns the data for that ticker to XXXXX.
+    */
+    var ratingData;
+    const pythonURL = `http://localhost:5000/getRatings?symbol=${userInput}`
+    const response = await fetch(pythonURL);
+    const responseData = await response.json();
+    ratingData = responseData;
+    return ratingData
+  }
+
   getSearches() {
   // Returns current list from sessionStorage to variable
     this.searches = JSON.parse(sessionStorage.getItem('searches'));
@@ -85,7 +98,7 @@ export class SearchService {
       return this.currentUpdated.asObservable();
     }
 
-  addSearch(ticker, apiData, userSearch, isSubmitted, overviewData) {
+  addSearch(ticker, apiData, userSearch, isSubmitted, overviewData, ratingData) {
   /*
   Takes inputs from the onAddSearch() function in side-search.component.ts file.
   Posts inputs to the search model, then pushes them to the observable in the
@@ -98,7 +111,8 @@ export class SearchService {
       low: apiData.lows[0].toFixed(2),
       high: apiData.highs[0].toFixed(2),
       data: apiData,
-      overview: overviewData
+      overview: overviewData,
+      rating: ratingData
     };
     let localSearch = [];
     if (sessionStorage.searches) {
@@ -146,6 +160,7 @@ export class SearchService {
     savedList.push(...searchList)
     this.savedUpdated.next([...savedList]);
     localStorage.setItem('saved', JSON.stringify(savedList));
+    this.clearSearches();
     this.getSavedUpdateListener();
   }
 
