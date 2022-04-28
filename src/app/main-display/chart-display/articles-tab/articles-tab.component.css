@@ -3,3 +3,30 @@ h3 {
   text-align: center;
   padding-top: 50px;
 }
+
+.articleSentiment {
+  color:red;
+  text-align: center;
+  padding-top: 50px;
+  background: #D3D4D9;
+  height:35vh;
+  border-radius: 1rem;
+}
+
+.articles {
+  color:red;
+  text-align: center;
+  padding-top: 50px;
+  background: white;
+  height:calc(70vh + 15px);
+  border-radius: 1rem;
+}
+
+.termFreq {
+  color:red;
+  text-align: center;
+  padding-top: 50px;
+  background: #D3D4D9;
+  height:35vh;
+  border-radius: 1rem;
+}

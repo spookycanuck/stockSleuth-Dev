@@ -1,5 +1,6 @@
 <h3>articles-tab works!</h3>
-<h3 *ngIf="searchList.length > 0; else checkSaved">
+
+<!-- <h3 *ngIf="searchList.length > 0; else checkSaved">
   Current Search:
   <br>
   {{ overviewData[0].value }}
@@ -16,4 +17,16 @@
 
 <ng-template #noSearch>
   <h3>No recent searches to display!</h3>
-</ng-template>
+</ng-template> -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-6" style="padding-right:0">
+      <div class="articleSentiment">Article Sentiment Here</div>
+      <div class="termFreq" style="margin-top:15px">Term Frequency Chart Here</div>
+    </div>
+    <div class="col-xl-6">
+      <div class="articles">News Articles Here</div>
+    </div>
+  </div>
+</div>

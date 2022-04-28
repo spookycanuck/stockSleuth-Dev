@@ -3,3 +3,21 @@ h3 {
   text-align: center;
   padding-top: 50px;
 }
+
+.holdersChart {
+  color:red;
+  text-align: center;
+  padding-top: 50px;
+  background: white;
+  height:70vh;
+  border-radius: 1rem;
+}
+
+.holdersFunction {
+  color:red;
+  text-align: center;
+  padding-top: 50px;
+  background: #D3D4D9;
+  height:70vh;
+  border-radius: 1rem;
+}
