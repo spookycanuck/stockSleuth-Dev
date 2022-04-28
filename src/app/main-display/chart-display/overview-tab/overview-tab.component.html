@@ -1,9 +1,6 @@
-<h3>Company Overview for {{ overviewData[0].value }}</h3>
-
 <table class="table table-bordered" style="margin-top: 25px; width:80%; margin-left:10%">
   <tr style="text-align:center; height:75px;">
-    <th style="border: 1px solid;">Info</th>
-    <th style="border: 1px solid;">Company Data</th>
+    <th colspan="2" style="border: 1px solid;">{{ overviewData[0].value }} Company Data</th>
   </tr>
   <tr *ngFor="let item of overviewData">
     <td style="width:20%; text-align:center;border: 1px solid; font-weight: bold;">
@@ -12,5 +9,31 @@
     <td style="padding: 15px; border: 1px solid;">
       {{ item.value ? item.value:'N/A' }}
     </td>
+  </tr>
+</table>
+
+<table class="table table-bordered" style="margin-top: 25px; width:80%; margin-left:10%">
+  <tr style="text-align:center; height:75px;">
+    <th colspan="4" style="border: 1px solid;">Company Ratings</th>
+  </tr>
+  <tr *ngFor="let item of ratings">
+    <td style="width:25%; text-align:center;border: 1px solid; font-weight: bold;">
+      {{ item.score_label }}:
+    </td>
+    <td style="padding: 15px; text-align:center; border: 1px solid;">
+      {{ item.score_value ? item.score_value:'N/A' }}
+    </td>
+    <td style="width:25%; text-align:center;border: 1px solid; font-weight: bold;">
+      {{ item.rec_label }}
+    </td>
+    <td style="padding: 15px; text-align:center; border: 1px solid;">
+      {{ item.rec_value ? item.rec_value:'N/A' }}
+    </td>
+  </tr>
+  <tr style="text-align:center;">
+    <td colspan="4" style="font-size:15px; border: 1px solid;">Ratings are current as of {{ date }}</td>
+  </tr>
+  <tr style="text-align:center;">
+    <td colspan="4" style="font-size:15px; border: 1px solid;">This is not financial advice</td>
   </tr>
 </table>

@@ -14,6 +14,8 @@ export class OverviewTabComponent implements OnInit {
   savedList = []
   currentData = []
   overviewData = []
+  ratings = []
+  date
 
   private searchesSub: Subscription;
   private savedSub: Subscription;
@@ -57,10 +59,14 @@ export class OverviewTabComponent implements OnInit {
     var x = JSON.parse(sessionStorage.getItem('currentSearch'))
     if (x.overview) {
       this.overviewData = x.overview.profile
+      this.ratings = x.rating.ratings
+      this.date = x.rating.date
     }
     else if (this.savedList) {
       var y = this.savedList[this.savedList.length-1]
       this.overviewData = y.overview.profile
+      this.ratings = y.rating.ratings
+      this.date = y.rating.date
     }
   }
 
@@ -85,10 +91,14 @@ export class OverviewTabComponent implements OnInit {
     if (data.length > 0) {
       var x = data[data.length-1];
       this.overviewData = x.overview.profile
+      this.ratings = x.rating.ratings
+      this.date = x.rating.date
     }
     else if (data) {
       var y = data;
       this.overviewData = y.overview.profile
+      this.ratings = y.rating.ratings
+      this.date = y.rating.date
     }
     else return;
   }
