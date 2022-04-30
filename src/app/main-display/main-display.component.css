@@ -25,13 +25,6 @@ mat-spinner, .mat-progress-spinner circle, .mat-spinner circle {
   text-align: center;
 }
 
-/* SAVED FOR LATER
-add [@.disabled]="true" to mat-tab-group in chart-display.html
-for fade animation.
-For regular Angular swiping animation, remove the above
-& comment through @keyframes code below
-*/
-
 .mat-tab-body.mat-tab-body-active {
   animation: fade 0.5s;
 }
@@ -215,3 +208,7 @@ h6 {
     /* Handle on hover */
     background: #970a1d;
   }
+
+.main-svg {
+  border-radius: 1rem;
+}
