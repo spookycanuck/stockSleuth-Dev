@@ -11,6 +11,7 @@ h3 {
   background: #D3D4D9;
   height:35vh;
   border-radius: 1rem;
+  animation: bounce 0.3s ease-in forwards;
 }
 
 .articles {
@@ -20,6 +21,7 @@ h3 {
   background: white;
   height:calc(70vh + 15px);
   border-radius: 1rem;
+  animation: bounce 0.7s ease-in forwards;
 }
 
 .termFreq {
@@ -29,4 +31,17 @@ h3 {
   background: #D3D4D9;
   height:35vh;
   border-radius: 1rem;
+  animation: bounce 1s ease-in forwards;
+}
+
+@keyframes bounce {
+  50% {
+    transform: scale(1.01);
+    opacity: 1;
+  }
+
+  100% {
+      transform: scale(1);
+      opacity: 1;
+  }
 }
