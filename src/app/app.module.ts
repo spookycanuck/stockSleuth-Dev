@@ -8,7 +8,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatTabsModule } from '@angular/material/tabs'
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -38,6 +41,8 @@ import { OverviewTabComponent } from './main-display/chart-display/overview-tab/
 import { SentimentTabComponent } from './main-display/chart-display/sentiment-tab/sentiment-tab.component';
 import { ArticlesTabComponent } from './main-display/chart-display/articles-tab/articles-tab.component';
 import { HoldersTabComponent } from './main-display/chart-display/holders-tab/holders-tab.component';
+import { ChartFunctionsComponent } from './main-display/chart-display/chart-functions/chart-functions.component';
+import { FilingsTabComponent } from './main-display/chart-display/filings-tab/filings-tab.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -61,6 +66,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SentimentTabComponent,
     ArticlesTabComponent,
     HoldersTabComponent,
+    ChartFunctionsComponent,
+    FilingsTabComponent,
     ],
   imports: [
     BrowserModule,
@@ -77,11 +84,14 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatFormFieldModule,
     HttpClientModule,
     MatPaginatorModule,
     CommonModule,
     PlotlyModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule,
+    MatPseudoCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
