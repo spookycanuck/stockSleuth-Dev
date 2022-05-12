@@ -6,9 +6,9 @@
       <br>
       <h3>Recent Searches</h3>
       <br>
-      <div class="row">
-        <div class="col-lg-2" style="padding-top:15%">
-          <h3>Chart functions go here</h3>
+      <div class="row" style="margin-left:0px">
+        <div class="col-lg-2 chartFunction">
+          <app-chart-functions></app-chart-functions>
         </div>
         <div class="col-lg-10">
           <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
@@ -27,6 +27,9 @@
     <mat-tab label="Holders">
       <app-holders-tab></app-holders-tab>
     </mat-tab>
+    <mat-tab label="Filings">
+      <app-filings-tab></app-filings-tab>
+    </mat-tab>
   </mat-tab-group>
 </div>
 
@@ -37,9 +40,9 @@
         <br>
         <h3>Saved Searches from {{ savedList[0].data.dates[savedList[0].data.dates.length-1] }}</h3>
         <br>
-        <div class="row">
-          <div class="col-lg-2" style="padding-top:15%">
-            <h3>Chart functions go here</h3>
+        <div class="row" style="margin-left:0px">
+          <div class="col-lg-2 chartFunction">
+            <app-chart-functions></app-chart-functions>
           </div>
           <div class="col-lg-10">
             <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="graph.config"></plotly-plot>
@@ -57,6 +60,9 @@
       </mat-tab>
       <mat-tab label="Holders">
         <app-holders-tab></app-holders-tab>
+      </mat-tab>
+      <mat-tab label="Filings">
+        <app-filings-tab></app-filings-tab>
       </mat-tab>
     </mat-tab-group>
   </div>
