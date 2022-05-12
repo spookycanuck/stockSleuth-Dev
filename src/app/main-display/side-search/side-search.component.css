@@ -1,0 +1,42 @@
+.view {
+  background-color: #D3D4D9;
+  height: 100vh;
+}
+
+.side-search {
+  padding-top: 15px;
+}
+
+.mat-option-text:hover {
+  overflow:visible;
+  animation-name:scroll;
+  animation-iteration-count: infinite;
+  animation-duration:5s;
+}
+
+@keyframes scroll  {
+  0% {
+    transform:translateX(0);
+  }
+
+  100% {
+    transform:translateX(-50%);
+  }
+}
+
+app-side-search .mat-expansion-panel {
+  background-color: #252627;
+  color: white;
+}
+
+app-side-search .mat-expansion-indicator::after {
+  color: white;
+}
+
+app-side-search .hoverSearch:hover {
+  background: #BB0A21 !important;
+}
+
+app-side-search .description {
+  margin: 15px auto;
+}
