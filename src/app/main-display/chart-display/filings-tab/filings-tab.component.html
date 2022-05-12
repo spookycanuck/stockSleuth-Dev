@@ -1,0 +1,58 @@
+  <h3 style="padding-top: 50px;">filings-tab works!</h3>
+  <div class="row">
+    <div class="col-xl-2" style="padding-right: 0px;">
+      <div class="filingsFunction">
+        <div class="inputContainer containerText">
+          <h5>Summary</h5>
+        </div>
+          <div class="filings-summary">
+            <div class="summary-container">
+              <div class="containerText">
+                <h6>Revenue</h6> <!-- NG For loop for titles-->
+              </div>
+              <div class="summary-item"> <!-- NG For loop for info -->
+                <div class="summary-item-label">Average</div>
+                <div class="summary-item-value">XXX</div><br>
+                <div class="summary-item-label">Total Change</div>
+                <div class="summary-item-value">XXX</div><br>
+                <div class="summary-item-label">% Change</div>
+                <div class="summary-item-value">XXX</div><br>
+              </div>
+            </div>
+        </div>
+        <div class="inputContainer containerText">
+          <h5>Filters</h5>
+        </div>
+        <mat-form-field id="dateRange" appearance="outline">
+          <mat-label>Date Range</mat-label>
+          <mat-select disableOptionCentering="true" panelClass="filingOptions" [formControl]="dates" multiple>
+            <mat-option *ngFor="let date of dateList" [value]="date">{{date}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <mat-expansion-panel style="margin: 3px auto">
+            <mat-expansion-panel-header>
+              Data
+            </mat-expansion-panel-header>
+            <div *ngFor="let x of dataList" style="padding-top:5px">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  {{ x }}
+                </mat-expansion-panel-header>
+                <div>
+                  <div><input type="radio" checked>Line</div>
+                  <div><input type="radio">Bar</div>
+                  <div><input type="radio">Dots</div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-xl-10">
+      <div class="filingsChart">Chart Here</div>
+    </div>
+  </div>
