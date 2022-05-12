@@ -71,23 +71,6 @@ h6 {
   text-align: center;
 }
 
-.mat-expansion-panel {
-  background-color: #252627;
-  color: white;
-}
-
-.mat-expansion-indicator::after {
-  color: white;
-}
-
-.hoverSearch:hover {
-  background: #BB0A21 !important;
-}
-
-.description {
-  margin: 15px auto;
-}
-
 .iconStyle {
   padding: 0;
   transition: 0.2s;
@@ -169,23 +152,6 @@ h6 {
   color: white
 }
 
-.mat-option-text:hover {
-    overflow:visible;
-    animation-name:scroll;
-    animation-iteration-count: infinite;
-    animation-duration:5s;
-}
-
-  @keyframes scroll  {
-    0% {
-      transform:translateX(0);
-    }
-
-    100% {
-      transform:translateX(-50%);
-    }
-}
-
 .mat-tab-body-content::-webkit-scrollbar {
   /* width */
   width: 10px;
@@ -210,5 +176,10 @@ h6 {
   }
 
 .main-svg {
+  border-radius: 1rem;
+}
+
+.chartFunction {
+  background-color: #D3D4D9;
   border-radius: 1rem;
 }
