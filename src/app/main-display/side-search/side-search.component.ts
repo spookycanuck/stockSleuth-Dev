@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, startWith } from 'rxjs';
@@ -11,8 +11,9 @@ import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-side-search',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './side-search.component.html',
-  styleUrls: []
+  styleUrls: ['./side-search.component.css']
 })
 export class SideSearchComponent implements OnInit {
 
