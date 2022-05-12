@@ -43,10 +43,11 @@ export const Graph = {
             automargin: true,
         },
         yaxis: {
-            showticklabels: false,
-            showgrid: false,
+            showticklabels: true,
+            showgrid: true,
             fixedrange: true,
-            automargin: true
+            automargin: true,
+            side: 'right'
         },
         yaxis2: {
           visible: false,
