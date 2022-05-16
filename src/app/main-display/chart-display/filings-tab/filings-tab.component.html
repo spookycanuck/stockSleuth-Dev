@@ -23,19 +23,22 @@
         <div class="inputContainer containerText">
           <h5>Filters</h5>
         </div>
-        <mat-form-field id="dateRange" appearance="outline">
-          <mat-label>Date Range</mat-label>
-          <mat-select disableOptionCentering="true" panelClass="filingOptions" [formControl]="dates" multiple>
-            <mat-option *ngFor="let date of dateList" [value]="date">{{date}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+
+        <div id="dateRange">
+          <mat-form-field appearance="outline">
+            <mat-label>Date Range</mat-label>
+            <mat-select disableOptionCentering="true" panelClass="filingOptions" [formControl]="dates" multiple>
+              <mat-option *ngFor="let date of dateList" [value]="date">{{date}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
         <div>
-          <mat-expansion-panel style="margin: 3px auto">
+          <mat-expansion-panel id="dataFilters" style="margin: 3px auto">
             <mat-expansion-panel-header>
               Data
             </mat-expansion-panel-header>
-            <div *ngFor="let x of dataList" style="padding-top:5px">
+            <div *ngFor="let x of dataList" style="padding-top:10px">
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   {{ x }}

@@ -82,29 +82,35 @@
 }
 
 .summary-item-label {
-  width: 50%;
+  width: 55%;
   float: left;
 }
 
 .summary-item-value {
-  width: 50%;
+  width: 40%;
   float: right;
   text-align: right;
 }
 
-#dateRange .mat-form-field {
-  width:100% !important;
-}
-
 #mat-select-0-panel .mat-option-text {
   animation: none !important;
+  text-align: center;
 }
 
-#mat-select-0-panel {
+/* #mat-select-0-panel {
+  --- Moves filings tab dates dropdown box to the right 30 px
   margin-left: 30px;
+} */
+
+#dateRange .mat-form-field-appearance-outline {
+  width: calc(100% - 5px);
 }
 
-/*
-.filingsFunction .mat-expansion-panel {
-  background-color: red;
-} */
+#dataFilters .mat-expansion-panel-header {
+  height: 60px;
+}
+
+#dataFilters.mat-expansion-panel {
+  width: calc(100% - 10px);
+  float: left;
+}
