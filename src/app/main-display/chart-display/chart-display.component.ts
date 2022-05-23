@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 import { Search } from '../search.model';
 import { SearchService } from '../search.service';
@@ -16,6 +18,11 @@ export class ChartDisplayComponent implements OnInit {
   savedList = [];
   data = [];
   dataPresent = false;
+
+  faBar = faChartBar;
+  faGraph = faChartLine;
+  graphClicked = true;
+  candleClicked = false;
 
   public graph;
   public status;
@@ -37,6 +44,7 @@ export class ChartDisplayComponent implements OnInit {
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
+        this.setLines();
         this.checkGraph();
         // can remove this if/else statement below. All it really
         //  does is log shit to the console via a function. Lul
@@ -86,13 +94,60 @@ export class ChartDisplayComponent implements OnInit {
 
   getChart(list) {
     if (list) {
-      if (list.length > 0) {
+      if (list.length > 0 && this.graphClicked == true) {
         this.data = list[list.length-1];
-        this.graph = this.searchService.setGraphValues(this.data)
+        this.graph = this.searchService.setGraphValues(this.data, 'lines')
+        console.log(this.graph)
+      }
+      else if (list.length > 0 && this.candleClicked == true) {
+        // this.data = list[list.length-1];
+        this.graph = this.searchService.setGraphValues(this.data, 'candle')
+        console.log(this.graph)
       }
       else return;
     }
     else return;
+  }
+
+  setLines() {
+    if (this.graphClicked == false) {
+      this.graphClicked = true;
+      this.candleClicked = false;
+      var graph = document.getElementById("graphIcon")
+      var candle = document.getElementById("candleIcon")
+      graph.classList.add("active")
+      candle.classList.remove("active")
+    }
+  }
+
+  graphLines() {
+    // console.log("graph clicked!")
+    this.graphClicked = true;
+    this.candleClicked = false;
+    if (this.graphClicked) {
+      var graph = document.getElementById("graphIcon")
+      var candle = document.getElementById("candleIcon")
+      graph.classList.add("active")
+      candle.classList.remove("active")
+    }
+    this.checkGraph()
+  }
+
+  graphCandles() {
+    // console.log("candle clicked!")
+    this.candleClicked = true;
+    this.graphClicked = false;
+    if (this.candleClicked) {
+      var candle = document.getElementById("candleIcon")
+      var graph = document.getElementById("graphIcon")
+      candle.classList.add("active")
+      graph.classList.remove("active")
+    }
+    console.log(this.data)
+    // TODO: Insead of checkgraph() try graphing currentSearch from session.
+    //  checkgraph() is taking the last index of the search list. Logically, it
+    //  should be taking from the current search to maximize that capability.
+    this.checkGraph()
   }
 
   ngOnDestroy() {
