@@ -69,7 +69,7 @@
 
 </div>
 
-<div class="info-text saveButton">
+<div id="sideBtn" class="info-text saveButton">
   <button mat-stroked-button [disabled]="!searchList || (searchList.length == 0)" (click)="onClearSearch()">Clear Searches</button>
   <button style="margin-left: 3px;" mat-stroked-button [disabled]="!searchList || (searchList.length == 0)" (click)="onSaveSearch()">Save Searches</button>
 </div>
@@ -101,6 +101,6 @@
   <h6 class="info-text mat-body-1" *ngIf="!savedList || (savedList.length == 0)"><br>No saved searches to display!</h6>
 </div>
 
-<div class="info-text savedRowButton">
+<div id="sideBtn" class="info-text savedRowButton">
   <button mat-stroked-button [disabled]="!savedList || (savedList.length == 0)" (click)="onClearSaved()">Clear Saved</button>
 </div>
