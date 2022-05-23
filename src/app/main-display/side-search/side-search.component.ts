@@ -128,7 +128,7 @@ export class SideSearchComponent implements OnInit {
     this.searchExists(newSearch);
     if (this.result == true) {
       this.isLoading = false;
-      this.recentSearchExists = true; //TO DO: change this to a different error readout if search exists!
+      this.recentSearchExists = true;
       return;
     }
 
@@ -197,12 +197,12 @@ export class SideSearchComponent implements OnInit {
 
   graphSearch(tickerId) {
   // Graphs a single item from Recent Searches
-    this.searchService.graphSearch(tickerId)
+    this.searchService.graphSearch(tickerId, 'lines')
   }
 
   graphSaved(tickerID) {
   // Graphs a single item from Saved Searches
-    this.searchService.graphSaved(tickerID)
+    this.searchService.graphSaved(tickerID, 'lines')
   }
 
   private _filter(value) {
