@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 
 import { Search } from "./search.model";
-import { Graph } from "./chart-display/graph";
+import { Lines, Candlestick, Layout } from "./chart-display/graph";
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -14,7 +14,10 @@ export class SearchService {
   private searchUpdated = new Subject<Search[]>();
   private savedUpdated = new Subject<Search[]>();
   private currentUpdated = new Subject<Search[]>();
-  private graph = Graph;
+  private graph = Lines;
+  private candle = Candlestick;
+  private chartType;
+  private layout = Layout;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -81,6 +84,12 @@ export class SearchService {
     var searchList: Search[] = [];
     searchList = JSON.parse(localStorage.getItem('saved'));
     return searchList
+  }
+
+  getCurrentSearch() {
+  // Returns currentSearch item from sessionStorage
+    console.log(JSON.parse(sessionStorage.getItem('currentSearch')))
+    return JSON.parse(sessionStorage.getItem('currentSearch'));
   }
 
   getSearchUpdateListener() {
@@ -182,19 +191,22 @@ export class SearchService {
     this.getSavedUpdateListener();
   }
 
-  graphSearch(apiData) {
+
+
+  graphSearch(apiData, id) {
   // Builds apiData input for setGraphValues() function
     let searches = this.getSearches()
     for(var i = 0; i < searches.length; i++) {
       if(searches[i].ticker == apiData) {
         var doody = searches[i]
      }
-   }
-    this.setGraphValues(doody)
+    }
+    console.log(apiData, id)
+    this.setGraphValues(doody, id)
     this.setCurrentSearch(doody)
   }
 
-  graphSaved(apiData) {
+  graphSaved(apiData, id) {
     // Builds apiData input for setGraphValues() function
     let saved = this.getSaved()
     for(var i = 0; i < saved.length; i++) {
@@ -202,34 +214,55 @@ export class SearchService {
         var doody = saved[i]
      }
     }
-    this.setGraphValues(doody)
+    this.setGraphValues(doody, id)
     this.setCurrentSearch(doody)
   }
 
-  setGraphValues(apiData) {
+  setGraphValues(apiData, id) {
   /*
   Sets plotly graph values. Takes inputs in the form of apiData. Can be touched
   from anywhere in the app that allows a user to graph an object.
   */
     const priceData = apiData.data;
-    const graph = this.graph;
+    const layout = this.layout;
+    let trace;
+    let graphArray = []
+
+    console.log(id)
+    if (id == 'lines') {
+      trace = this.graph
+
+      //Building unique line values
+      trace.data[0].y = priceData.adjCloses;
+      layout.layout.title = apiData.description + " Adjusted Close";
+    }
+    else if (id == 'candle') {
+      trace = this.candle
+
+      // Building unique candle values
+      trace.data[0].open = priceData.opens;
+      trace.data[0].close = priceData.adjCloses;
+      trace.data[0].low = priceData.lows;
+      trace.data[0].high = priceData.highs;
+      layout.layout.title = apiData.description + " Candlestick Chart";
+    }
 
     // Building graph window
-    graph.data[0].name = apiData.ticker;
-    graph.data[0].x = priceData.dates;
-    graph.data[0].y = priceData.adjCloses;
-    graph.layout.title = apiData.description + " Adjusted Close";
+    trace.data[0].name = apiData.ticker;
+    trace.data[0].x = priceData.dates;
 
     // Building graph volume
-    graph.data[1].name = apiData.ticker;
-    graph.data[1].x = priceData.dates;
-    graph.data[1].y = priceData.volumes;
-    graph.data[1].marker.color = priceData.colors;
+    trace.data[1].name = apiData.ticker;
+    trace.data[1].x = priceData.dates;
+    trace.data[1].y = priceData.volumes;
+    trace.data[1].marker.color = priceData.colors;
 
     // Building graph layout
-    graph.layout.yaxis2.range = [0, (Math.max(...priceData.volumes) * 10)];
+    layout.layout.yaxis2.range = [0, (Math.max(...priceData.volumes) * 10)];
 
-    return graph;
+    graphArray = [trace, layout]
+
+    return graphArray;
   }
 
 } //end Search Service class.
