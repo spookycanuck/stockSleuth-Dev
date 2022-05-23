@@ -78,11 +78,11 @@ export class OverviewTabComponent implements OnInit {
     */
       let emptySearch = [];
       if (sessionStorage.currentSearch) {
-        console.log("current search exists")
+        // console.log("current search exists")
         return
       }
       if (!sessionStorage.currentSearch) {
-        console.log("no current search")
+        // console.log("no current search")
         sessionStorage.setItem('currentSearch', JSON.stringify(emptySearch))
       }
     }
