@@ -41,7 +41,6 @@ import { OverviewTabComponent } from './main-display/chart-display/overview-tab/
 import { SentimentTabComponent } from './main-display/chart-display/sentiment-tab/sentiment-tab.component';
 import { ArticlesTabComponent } from './main-display/chart-display/articles-tab/articles-tab.component';
 import { HoldersTabComponent } from './main-display/chart-display/holders-tab/holders-tab.component';
-import { ChartFunctionsComponent } from './main-display/chart-display/chart-functions/chart-functions.component';
 import { FilingsTabComponent } from './main-display/chart-display/filings-tab/filings-tab.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -66,7 +65,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SentimentTabComponent,
     ArticlesTabComponent,
     HoldersTabComponent,
-    ChartFunctionsComponent,
     FilingsTabComponent,
     ],
   imports: [
