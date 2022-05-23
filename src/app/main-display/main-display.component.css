@@ -147,7 +147,7 @@ h6 {
   margin-top: 0.25rem;
 }
 
-.mat-stroked-button:hover:not([disabled]) {
+#sideBtn .mat-stroked-button:hover:not([disabled]) {
   background: #BB0A21;
   color: white
 }
@@ -182,4 +182,68 @@ h6 {
 .chartFunction {
   background-color: #D3D4D9;
   border-radius: 1rem;
+}
+
+.iconText {
+  padding-top: 3rem;
+  text-align: center;
+}
+
+.icons {
+  margin-top: 5%;
+}
+
+.chartIcon {
+  float: left;
+  padding-left: 15%;
+}
+
+.chartIcon.active {
+  color: green;
+}
+
+.candleIcon {
+  float: right;
+  padding-right: 15%;
+}
+
+.candleIcon.active {
+  color: green;
+}
+
+.data-input {
+  width: calc((100% - 16px)/2);
+  height: 34px;
+  margin: 4px;
+  float: left;
+}
+
+.inputContainer {
+  width: 100%;
+  height: auto;
+  float: left;
+  border-bottom: 1px solid #252627;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+#draw-btn, #save-btn, #compare-btn {
+  height: auto;
+  color: #FFF9FB;
+  background-color: #252627;
+  border: 1px solid #252627;
+  text-shadow: 2px 2px 4px #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#save-btn, #compare-btn {
+  width: calc(100% - 8px);
+  height: auto;
+  margin: 4px;
+}
+
+.chartFunction button:hover {
+  transition: 0.3s;
+  background-color: green !important
 }
