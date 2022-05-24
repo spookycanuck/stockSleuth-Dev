@@ -88,7 +88,6 @@ export class SearchService {
 
   getCurrentSearch() {
   // Returns currentSearch item from sessionStorage
-    console.log(JSON.parse(sessionStorage.getItem('currentSearch')))
     return JSON.parse(sessionStorage.getItem('currentSearch'));
   }
 
@@ -191,8 +190,6 @@ export class SearchService {
     this.getSavedUpdateListener();
   }
 
-
-
   graphSearch(apiData, id) {
   // Builds apiData input for setGraphValues() function
     let searches = this.getSearches()
@@ -228,7 +225,6 @@ export class SearchService {
     let trace;
     let graphArray = []
 
-    console.log(id)
     if (id == 'lines') {
       trace = this.graph
 
