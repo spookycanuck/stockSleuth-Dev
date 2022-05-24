@@ -17,6 +17,7 @@ export class ChartDisplayComponent implements OnInit {
   searchList = [];
   savedList = [];
   data = [];
+  current = [];
   dataPresent = false;
 
   faBar = faChartBar;
@@ -28,13 +29,18 @@ export class ChartDisplayComponent implements OnInit {
   public status;
   private searchesSub: Subscription;
   private savedSub: Subscription;
+  private currentSub: Subscription;
 
   constructor(public searchService: SearchService, private router: ActivatedRoute) { }
+
+  // TODO: Create observable for which graph icon is clicked maybe?
+  //  then follow that observable around when the 3 graph buttons are clicked
 
   ngOnInit() {
     console.log("OnInit - data present?\n", this.dataPresent)
     this.searchList = this.searchService.getSearches()
     this.savedList = this.searchService.getSaved()
+    this.current = this.searchService.getCurrentSearch()
     if (this.searchList.length > 0) {
       this.getChart(this.searchList)
     }
@@ -44,43 +50,20 @@ export class ChartDisplayComponent implements OnInit {
     this.searchesSub = this.searchService.getSearchUpdateListener() //actively listening for new searches
       .subscribe((searches: Search[]) => {
         this.searchList = searches;
+        this.current = searches;
         this.setLines();
         this.checkGraph();
-        // can remove this if/else statement below. All it really
-        //  does is log shit to the console via a function. Lul
-        // if ((this.searchList.length > 0) && (this.searchList[0].id == true)) {
-        //   this.toggleData(this.dataPresent, searches);
-        //   this.dataPresent = this.searchList[0].id;
-        // }
-        // else {
-        //   console.log("is not submitted")
-        // }
       });
     this.savedSub = this.searchService.getSavedUpdateListener() //actively listening for new searches
     .subscribe((saved: Search[]) => {
       this.savedList = saved;
       this.getChart(this.savedList)
     });
-  }
-
-  toggleData(isSubmitted, searchData) {
-    console.log("-----\nToggleData Function.\n Updated on New Search!\n-----")
-    if (isSubmitted == true) {
-      this.logData(searchData);
-    }
-    else {
-      isSubmitted = this.searchList[0].id;
-      console.log("isSubmitted Status: ", isSubmitted);
-      this.logData(searchData);
-    }
-  }
-
-  logData(searchData) {
-    console.log("Searches Array: ");
-    console.log(searchData)
-    console.log("Latest Search Data: ")
-    console.log(searchData[searchData.length-1]);
-    console.log("==========")
+    this.currentSub = this.searchService.getCurrentUpdateListener()
+    .subscribe((current: Search[]) => {
+      this.current = current;
+      this.getChart(this.current)
+    })
   }
 
   checkGraph() {
@@ -97,14 +80,30 @@ export class ChartDisplayComponent implements OnInit {
       if (list.length > 0 && this.graphClicked == true) {
         this.data = list[list.length-1];
         this.graph = this.searchService.setGraphValues(this.data, 'lines')
-        console.log(this.graph)
+        // console.log(this.graph)
       }
       else if (list.length > 0 && this.candleClicked == true) {
         // this.data = list[list.length-1];
-        this.graph = this.searchService.setGraphValues(this.data, 'candle')
-        console.log(this.graph)
+        this.graph = this.searchService.setGraphValues(this.current, 'candle')
+        // console.log(this.graph)
       }
       else return;
+    }
+    else return;
+  }
+
+  getLines() {
+    if (this.searchList.length > 0) {
+      var list = this.searchList
+    }
+    else {
+      var list = this.savedList
+    }
+
+    if (list) {
+      if (list.length > 0 && this.graphClicked == true) {
+        this.graph = this.searchService.setGraphValues(this.current, 'lines')
+      }
     }
     else return;
   }
@@ -130,7 +129,7 @@ export class ChartDisplayComponent implements OnInit {
       graph.classList.add("active")
       candle.classList.remove("active")
     }
-    this.checkGraph()
+    this.getLines()
   }
 
   graphCandles() {
@@ -143,10 +142,6 @@ export class ChartDisplayComponent implements OnInit {
       candle.classList.add("active")
       graph.classList.remove("active")
     }
-    console.log(this.data)
-    // TODO: Insead of checkgraph() try graphing currentSearch from session.
-    //  checkgraph() is taking the last index of the search list. Logically, it
-    //  should be taking from the current search to maximize that capability.
     this.checkGraph()
   }
 
